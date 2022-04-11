@@ -10,6 +10,7 @@
     <version>0.0</version>
     <modules>
         <module>TablesManager</module>
+        <module>DatabaseCreator</module>
     </modules>
 
     <properties>

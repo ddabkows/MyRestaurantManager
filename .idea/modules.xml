@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/DatabaseCreator/DatabaseCreator.iml" filepath="$PROJECT_DIR$/DatabaseCreator/DatabaseCreator.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyRestaurantManager.iml" filepath="$PROJECT_DIR$/MyRestaurantManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/TablesManager/TablesManager.iml" filepath="$PROJECT_DIR$/TablesManager/TablesManager.iml" />
     </modules>

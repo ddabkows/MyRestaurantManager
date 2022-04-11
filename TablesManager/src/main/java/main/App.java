@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 import org.junit.platform.commons.logging.LoggerFactory;
 
-import resource.loader.ResourceLoader;
+import resourceloader.ResourceLoader;
 import resources.Resources;
 
 /**App class that creates the main program Window

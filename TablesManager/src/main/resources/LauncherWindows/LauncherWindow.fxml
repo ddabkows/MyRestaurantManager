@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0"
-      prefWidth="949.0" xmlns="http://javafx.com/javafx/17">
-   <Label alignment="CENTER" layoutX="336.0" layoutY="225.0" prefHeight="128.0" prefWidth="277.0"
-          text="This is a working program."/>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.launcherwindows.LauncherController">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="578.0" strokeType="INSIDE" width="949.0" />
+   <Label alignment="CENTER" layoutX="195.0" layoutY="44.0" prefHeight="207.0" prefWidth="559.0" text="Welcome to Narcyz TablesManager" textFill="#c06c84">
+      <font>
+         <Font name="Lato Bold Italic" size="33.0" />
+      </font></Label>
+   <Button layoutX="407.0" layoutY="220.0" mnemonicParsing="false" onAction="#getToRestaurant" prefHeight="63.0" prefWidth="135.0" style="-fx-background-color: #C06C84;" text="Get In">
+      <font>
+         <Font name="Lato Bold Italic" size="33.0" />
+      </font>
+   </Button>
+   <Label layoutX="701.0" layoutY="539.0" prefHeight="25.0" prefWidth="234.0" text="Copyright (c) 2022 by Dominik Dabkowski" textFill="#f8b195">
+      <font>
+         <Font name="Lato Bold" size="12.0" />
+      </font>
+   </Label>
 </Pane>

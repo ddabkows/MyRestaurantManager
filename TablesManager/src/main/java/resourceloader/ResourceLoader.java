@@ -1,4 +1,4 @@
-package resource.loader;
+package resourceloader;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
