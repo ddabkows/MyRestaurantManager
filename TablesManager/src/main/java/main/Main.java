@@ -9,7 +9,7 @@ public class Main {
     /**Main method
      * Launches the whole program
      */
-    public static void main() {
+    public static void main(String[] args) {
         System.out.println("Main has been launched");
     }
 }

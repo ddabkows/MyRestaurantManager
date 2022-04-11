@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TablesManager:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TablesManager_jar</output-path>
+    <root id="archive" name="TablesManager.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/TablesManager/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="TablesManager" />
+    </root>
+  </artifact>
+</component>
