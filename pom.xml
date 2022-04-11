@@ -7,7 +7,7 @@
     <groupId>MyRestaurantManager</groupId>
     <artifactId>MyRestaurantManager</artifactId>
     <packaging>pom</packaging>
-    <version>1.0</version>
+    <version>0.0</version>
     <modules>
         <module>TablesManager</module>
     </modules>
