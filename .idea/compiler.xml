@@ -9,5 +9,9 @@
         <module name="TablesManager" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="MyRestaurantManager" target="17" />
+      <module name="TablesManager" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
