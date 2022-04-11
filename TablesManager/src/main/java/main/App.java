@@ -19,7 +19,9 @@ public class App extends Application {
      */
     @Override
     public void start(Stage stage) throws Exception {
+        // Check of all the resources
         checkResources();
+        // Setting the launcher window resource
         Parent root = ResourceLoader.getResource(Resources.LAUNCHER);
         stage.setTitle("TablesManager");
         stage.setScene(new Scene(root));
@@ -33,6 +35,9 @@ public class App extends Application {
         launch(args);
     }
 
+    /**Method created to check all the resources
+     * If a resource does not exist, the program exits
+     */
     private void checkResources() {
         for (Resources resource : Resources.values()) {
             try {
