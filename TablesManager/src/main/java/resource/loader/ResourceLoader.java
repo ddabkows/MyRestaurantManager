@@ -1,17 +1,18 @@
-package resourceLoader;
+package resource.loader;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import java.io.IOException;
+import java.util.Objects;
 
 import resources.Resources;
 
-import java.io.IOException;
-import java.util.Objects;
 
 /**Simple class with a static method that has as purpose
  * to load a fxml file and to give it's parent
  */
-public class ResourceLoader {
+public final class ResourceLoader {
+    private ResourceLoader() {}
     /**Method called to load a fxml file
      * @param resource resource (path) to the fxml file
      * @return Parent object of the resource

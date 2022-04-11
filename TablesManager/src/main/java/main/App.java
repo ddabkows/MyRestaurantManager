@@ -5,8 +5,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.function.Supplier;
+import org.junit.platform.commons.logging.LoggerFactory;
 
-import resourceLoader.ResourceLoader;
+import resource.loader.ResourceLoader;
 import resources.Resources;
 
 /**App class that creates the main program Window
@@ -41,13 +43,14 @@ public class App extends Application {
     private void checkResources() {
         for (Resources resource : Resources.values()) {
             try {
-                System.out.println("Checking resource : " + resource + "...");
+                Supplier<String> checkMessage = ()-> "Checking resource : " + resource + "...";
+                LoggerFactory.getLogger(Main.class).info(checkMessage);
                 ResourceLoader.getResource(resource);
-            } catch (IOException | NullPointerException ignored) {
-                System.out.println(resource + " not found. Force shut down.");
+            } catch (IOException ignored) {
+                Supplier<String> errorMessage = ()-> resource + " not found. Force shut down.";
+                LoggerFactory.getLogger(Main.class).error(errorMessage);
                 System.exit(1);
             }
-
         }
     }
 }

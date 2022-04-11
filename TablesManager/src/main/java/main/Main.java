@@ -4,8 +4,9 @@ package main;
 /**Simple Main file
  * Runs the TablesManager
  */
-public class Main {
+final class Main {
     // Methods
+    private Main() {}
 
     /**Main method
      * Launches the whole program
