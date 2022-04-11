@@ -2,6 +2,8 @@ package main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
@@ -19,7 +21,12 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         checkResources();
-        System.out.println("App has been accessed.");
+        System.out.println(Resources.LAUNCHER);
+        System.out.println(System.getProperty("user.dir"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getClassLoader().getResource(Resources.LAUNCHER.toString())));
+        stage.setTitle("TablesManager");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     /**Method called by the main class
