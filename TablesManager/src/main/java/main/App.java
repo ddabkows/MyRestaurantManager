@@ -1,6 +1,9 @@
 package main;
 
+
+import client.ExitSender;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -10,11 +13,14 @@ import org.junit.platform.commons.logging.LoggerFactory;
 
 import resourceloader.ResourceLoader;
 import resources.Resources;
+import client.ClientSocketBuilder;
+import controllers.launcherwindows.LauncherController;
 
 /**App class that creates the main program Window
  *
  */
 public class App extends Application {
+    ClientSocketBuilder clientSocketBuilder = new ClientSocketBuilder();
     /**Application start override, running the launcher window
      * @param stage unused parameter responsible for setting the stage (new stage anyway)
      * @throws Exception thrown for unexisting resource (impossible)
@@ -24,10 +30,19 @@ public class App extends Application {
         // Check of all the resources
         checkResources();
         // Setting the launcher window resource
-        Parent root = ResourceLoader.getResource(Resources.LAUNCHER);
+        FXMLLoader rootLoader = ResourceLoader.getResource(Resources.LAUNCHER);
+        Parent root = rootLoader.load();
+        LauncherController launcherController = rootLoader.getController();
+        launcherController.setClientSocket(clientSocketBuilder);
         stage.setTitle("TablesManager");
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        new ExitSender(clientSocketBuilder.getSocket()).sendPacket();
+        super.stop();
     }
 
     /**Method called by the main class

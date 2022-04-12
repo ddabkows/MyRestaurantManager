@@ -7,12 +7,16 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="DatabaseCreator" />
+        <module name="RestaurantServer" />
         <module name="TablesManager" />
+        <module name="Packets" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="DatabaseCreator" target="17" />
       <module name="MyRestaurantManager" target="17" />
+      <module name="Packets" target="17" />
+      <module name="RestaurantServer" target="17" />
       <module name="TablesManager" target="17" />
     </bytecodeTargetLevel>
   </component>

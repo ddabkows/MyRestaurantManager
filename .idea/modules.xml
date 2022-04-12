@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DatabaseCreator/DatabaseCreator.iml" filepath="$PROJECT_DIR$/DatabaseCreator/DatabaseCreator.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyRestaurantManager.iml" filepath="$PROJECT_DIR$/MyRestaurantManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Packetsd/Packets.iml" filepath="$PROJECT_DIR$/Packetsd/Packets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RestaurantServer/RestaurantServer.iml" filepath="$PROJECT_DIR$/RestaurantServer/RestaurantServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/TablesManager/TablesManager.iml" filepath="$PROJECT_DIR$/TablesManager/TablesManager.iml" />
     </modules>
   </component>

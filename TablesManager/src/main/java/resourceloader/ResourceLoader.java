@@ -1,7 +1,6 @@
 package resourceloader;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -18,9 +17,9 @@ public final class ResourceLoader {
      * @return Parent object of the resource
      * @throws IOException exception thrown if the file doesn't exist (never thrown)
      */
-    public static Parent getResource(Resources resource) throws IOException {
+    public static FXMLLoader getResource(Resources resource) throws IOException {
         // FXMLLoader = stage loader from a fxml file
-        return FXMLLoader.load(Objects.requireNonNull(
-               ResourceLoader.class.getClassLoader().getResource(resource.toString())));
+        return new FXMLLoader(Objects.requireNonNull(ResourceLoader.class.getClassLoader().getResource(
+                resource.toString())));
     }
 }

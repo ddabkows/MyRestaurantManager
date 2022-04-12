@@ -2,18 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>MyRestaurantManager</artifactId>
+        <groupId>MyRestaurantManager</groupId>
+        <version>0.0</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>MyRestaurantManager</groupId>
-    <artifactId>MyRestaurantManager</artifactId>
-    <packaging>pom</packaging>
-    <version>0.0</version>
-    <modules>
-        <module>Packets</module>
-        <module>TablesManager</module>
-        <module>DatabaseCreator</module>
-        <module>RestaurantServer</module>
-    </modules>
+    <artifactId>Packets</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
