@@ -17,7 +17,7 @@ public class Main {
             while (true) {
                 Socket socket = serverSocket.accept();
 
-                Supplier<String> newClientInfo = ()-> "New client connected";
+                Supplier<String> newClientInfo = ()-> "New client connected : " + socket.getRemoteSocketAddress();
                 LoggerFactory.getLogger(Main.class).info(newClientInfo);
 
                 new ServerThread(socket).start();

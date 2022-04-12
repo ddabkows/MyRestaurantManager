@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.junit.platform.commons.logging.LoggerFactory;
 import java.net.*;
 import java.io.*;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class TokenSender {
@@ -14,7 +15,7 @@ public class TokenSender {
         this.socket = socketToSet;
     }
 
-    public void sendPacket(String token) throws IOException {
+    public boolean sendPacket(String token) throws IOException {
         OutputStream outputStream = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(outputStream, true);
 
@@ -27,6 +28,15 @@ public class TokenSender {
 
         Supplier<String> answerSupplier = ()->answer;
         LoggerFactory.getLogger(TokenSender.class).info(answerSupplier);
+        return getAnswer(answer);
+    }
+
+    public boolean getAnswer(String answer) {
+        JSONObject answerPacket = new JSONObject(answer);
+        if (!Objects.equals(answerPacket.getString(new MainColumn().getMainColumn()), TokenSenderColumns.ANSWERTYPE.toString())) {
+            return false;
+        }
+        return answerPacket.getBoolean(TokenSenderColumns.ANSWERCOL.toString());
     }
 
     public String preparePacket(String token) {

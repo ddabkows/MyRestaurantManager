@@ -4,6 +4,7 @@ import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.io.*;
 import java.net.*;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class ServerThread extends Thread {
@@ -21,16 +22,19 @@ public class ServerThread extends Thread {
             OutputStream outputStream = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(outputStream, true);
 
-            String txt;
+            String receivedPacket;
 
             do {
-                txt = reader.readLine();
-                String finalTxt = txt;
+                receivedPacket = reader.readLine();
+                String finalTxt = receivedPacket;
+                if (Objects.equals(finalTxt, "exit")) {continue;}
                 Supplier<String> txtSupplier = ()-> finalTxt;
                 LoggerFactory.getLogger(ServerThread.class).info(txtSupplier);
-                String answer = "Hello.";
+                String answer = new PacketHandler().getPacketResponse(receivedPacket);
                 writer.println(answer);
-            } while (!txt.equals("exit"));
+            } while (!receivedPacket.equals("exit"));
+            Supplier<String> exitSupplier = ()-> "Client " + socket.getRemoteSocketAddress() + " disconnected...";
+            LoggerFactory.getLogger(ServerThread.class).info(exitSupplier);
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();

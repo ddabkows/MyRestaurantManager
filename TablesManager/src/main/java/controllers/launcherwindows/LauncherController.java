@@ -11,6 +11,10 @@ public class LauncherController extends Controller {
 
     public void getToRestaurant() throws IOException {
         TokenSender tokenSender = new TokenSender(super.getClientSocket().getSocket());
-        tokenSender.sendPacket("123");
+        if (tokenSender.sendPacket("123")) {
+            System.out.println("Authorized");
+        } else {
+            System.out.println("Rejected");
+        }
     }
 }

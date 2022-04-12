@@ -1,7 +1,9 @@
 package packettypes;
 
 public enum TokenSenderColumns {
-    TYPE {public String toString() {return "TokenPacket";}},
+    TYPE {public final String toString() {return "TokenPacket";}},
+    ANSWERTYPE {public final String toString() {return "TokenPacketAnswer";}},
 
-    TOKENCOL {public String toString() {return "Token";}}
+    TOKENCOL {public final String toString() {return "Token";}},
+    ANSWERCOL {public final String toString() {return "Authorize";}},
 }
