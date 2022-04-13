@@ -5,7 +5,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.launcherwindows.LauncherController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.launcherwindows.LauncherController">
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="578.0" strokeType="INSIDE" width="949.0" />
    <Label alignment="CENTER" layoutX="195.0" layoutY="91.0" prefHeight="71.0" prefWidth="559.0" text="Welcome to Narcyz TablesManager" textFill="#c06c84">
       <font>
