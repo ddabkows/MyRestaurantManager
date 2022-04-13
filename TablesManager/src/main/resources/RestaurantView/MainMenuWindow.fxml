@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.restaurantview.MainMenuController">
+    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="578.0" strokeType="INSIDE" width="949.0" />
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8b195" height="578.0" layoutX="229.0" strokeType="INSIDE" width="491.0" />
+   <Line endY="150.0" layoutX="330.0" layoutY="289.0" startX="-10.0" startY="120.0" />
+   <Line endX="-102.0" endY="90.0" layoutX="432.0" layoutY="490.0" startX="-102.0" startY="-50.0" />
+   <Label alignment="CENTER" layoutX="245.0" layoutY="470.0" prefHeight="45.0" prefWidth="72.0" style="-fx-rotate: -90;" text="BAR">
+      <font>
+         <Font name="Lato Bold" size="33.0" />
+      </font>
+   </Label>
+   <Line endX="-50.0" layoutX="330.0" layoutY="233.0" startX="-100.0" />
+   <Line endX="206.0" layoutX="514.0" layoutY="233.0" startX="-200.0" />
+   <Line endX="-100.0" endY="30.0" layoutX="380.0" layoutY="218.0" startX="-100.0" />
+   <Line endX="-100.0" endY="30.0" layoutX="413.0" layoutY="218.0" startX="-100.0" />
+    <Line endX="-10.0" layoutX="329.0" layoutY="408.0" startX="-100.0" />
+   <Button layoutX="622.0" layoutY="500.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="101" textFill="#c06c84" />
+   <Button layoutX="622.0" layoutY="470.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="102" textFill="#c06c84" />
+   <Button layoutX="622.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="103" textFill="#c06c84" />
+   <Button layoutX="622.0" layoutY="300.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="104" textFill="#c06c84" />
+   <Button layoutX="586.0" layoutY="242.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="105" textFill="#c06c84" />
+   <Button layoutX="548.0" layoutY="242.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="106" textFill="#c06c84" />
+   <Button layoutX="508.0" layoutY="242.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="107" textFill="#c06c84" />
+   <Button layoutX="468.0" layoutY="242.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="108" textFill="#c06c84" />
+   <Button layoutX="426.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="109" textFill="#c06c84" />
+   <Button layoutX="386.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="110" textFill="#c06c84" />
+   <Button layoutX="346.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="111" textFill="#c06c84" />
+   <Button layoutX="306.0" layoutY="330.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="112" textFill="#c06c84" />
+   <Button layoutX="346.0" layoutY="540.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="201" textFill="#c06c84" />
+   <Button layoutX="346.0" layoutY="510.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="202" textFill="#c06c84" />
+   <Button layoutX="346.0" layoutY="480.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="203" textFill="#c06c84" />
+   <Button layoutX="346.0" layoutY="450.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="204" textFill="#c06c84" />
+   <Button layoutX="275.0" layoutY="375.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="205" textFill="#c06c84" />
+   <Button layoutX="235.0" layoutY="375.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="206" textFill="#c06c84" />
+   <Button layoutX="280.0" layoutY="38.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="301" textFill="#c06c84" />
+   <Button layoutX="240.0" layoutY="120.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="302" textFill="#c06c84" />
+   <Button layoutX="240.0" layoutY="150.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="303" textFill="#c06c84" />
+   <Button layoutX="400.0" layoutY="100.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="304" textFill="#c06c84" />
+   <Button layoutX="360.0" layoutY="160.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="305" textFill="#c06c84" />
+   <Button layoutX="360.0" layoutY="190.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="306" textFill="#c06c84" />
+   <Button layoutX="620.0" layoutY="190.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="307" textFill="#c06c84" />
+   <Button layoutX="620.0" layoutY="160.0" mnemonicParsing="false" style="-fx-background-color: #355c7d;" text="308" textFill="#c06c84" />
+   <Button layoutX="560.0" layoutY="72.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="45.0" style="-fx-background-color: #355c7d;" text="309" textFill="#c06c84" />
+</Pane>
