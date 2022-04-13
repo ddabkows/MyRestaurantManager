@@ -54,9 +54,8 @@ public class ProductsHandler extends ConnectionHandler {
     public void showTable() throws SQLException {
         String selectQuery = String.format("SELECT %s.id, %s, %s.%s FROM %s INNER JOIN %s ON %s.%s=%s.%s",
                 TablesNames.PRODUCT, ColumnNames.PRODUCTNAME, TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, TablesNames.PRODUCT,
-                TablesNames.CATEGORY, TablesNames.PRODUCT, ColumnNames.CATEGORYCOL, TablesNames.CATEGORY, ColumnNames.CATEGORYCOL);
+                TablesNames.CATEGORY, TablesNames.PRODUCT, ColumnNames.CATEGORYCOL, TablesNames.CATEGORY, "id");
         ResultSet queryResult = executeSelectQuery(selectQuery);
-        System.out.println(selectQuery);
         while (queryResult.next()) {
             String product = queryResult.getString(ColumnNames.PRODUCTNAME.toString());
             String category = queryResult.getString(String.format("%s.%s", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL));
