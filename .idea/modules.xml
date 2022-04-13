@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/DatabaseContent/DatabaseContent.iml" filepath="$PROJECT_DIR$/DatabaseContent/DatabaseContent.iml" />
       <module fileurl="file://$PROJECT_DIR$/DatabaseCreator/DatabaseCreator.iml" filepath="$PROJECT_DIR$/DatabaseCreator/DatabaseCreator.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyRestaurantManager.iml" filepath="$PROJECT_DIR$/MyRestaurantManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Packetsd/Packets.iml" filepath="$PROJECT_DIR$/Packetsd/Packets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Packets/Packets.iml" filepath="$PROJECT_DIR$/Packets/Packets.iml" />
       <module fileurl="file://$PROJECT_DIR$/RestaurantServer/RestaurantServer.iml" filepath="$PROJECT_DIR$/RestaurantServer/RestaurantServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/TablesManager/TablesManager.iml" filepath="$PROJECT_DIR$/TablesManager/TablesManager.iml" />
     </modules>

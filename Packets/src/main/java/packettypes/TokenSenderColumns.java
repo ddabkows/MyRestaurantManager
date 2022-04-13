@@ -6,4 +6,8 @@ public enum TokenSenderColumns {
 
     TOKENCOL {public final String toString() {return "Token";}},
     ANSWERCOL {public final String toString() {return "Authorize";}},
+    USERTYPECOL {public final String toString() {return "UserType";}},
+
+    ADMIN {public final String toString() {return "Admin";}},
+    USER {public final String toString() {return "User";}},
 }

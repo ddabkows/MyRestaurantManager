@@ -4,6 +4,7 @@ import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.io.*;
 import java.net.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -36,8 +37,9 @@ public class ServerThread extends Thread {
             Supplier<String> exitSupplier = ()-> "Client " + socket.getRemoteSocketAddress() + " disconnected...";
             LoggerFactory.getLogger(ServerThread.class).info(exitSupplier);
             socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | NoSuchAlgorithmException throwables) {
+            Supplier<String> error = throwables::getMessage;
+            LoggerFactory.getLogger(ServerThread.class).error(error);
         }
     }
 }

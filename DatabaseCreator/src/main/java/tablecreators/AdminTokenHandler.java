@@ -1,16 +1,22 @@
 package tablecreators;
 
 
+import databaseparams.ColumnNames;
+import databaseparams.TablesNames;
+import org.junit.platform.commons.logging.LoggerFactory;
+
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.function.Supplier;
 
 /**Method responsible for creating the admin_token table
  * and adding the admintoken
  */
 public class AdminTokenHandler extends ConnectionHandler {
-    private final String tokenColumn = "token";
     public AdminTokenHandler() throws NoSuchAlgorithmException, SQLException {
+        String eraseQuery = String.format("DROP TABLE %s", TablesNames.ADMINTOKEN);
+        realizeUpdateQuery(eraseQuery);
         createTable();
         addAdminToken();
         showTable();
@@ -21,11 +27,11 @@ public class AdminTokenHandler extends ConnectionHandler {
      */
     @Override
     public void createTable() {
-        String createQuery = """
-                CREATE TABLE IF NOT EXISTS admin_token (
+        String createQuery = String.format("""
+                CREATE TABLE IF NOT EXISTS %s (
                 id int UNSIGNED AUTO_INCREMENT,
-                token VARCHAR(64) NOT NULL UNIQUE,
-                PRIMARY KEY (id));""";
+                %s VARCHAR(64) NOT NULL UNIQUE,
+                PRIMARY KEY (id));""", TablesNames.ADMINTOKEN, ColumnNames.ADMINTOKENCOL);
         realizeUpdateQuery(createQuery);
     }
 
@@ -35,7 +41,7 @@ public class AdminTokenHandler extends ConnectionHandler {
     public void addAdminToken() throws NoSuchAlgorithmException {
         String adminToken = encrypt("1011str1012t1013mintok14n");
         String insertQuery = String.format("""
-                INSERT INTO admin_token (%s) VALUES ('%s')""", tokenColumn, adminToken);
+                INSERT IGNORE INTO %s (%s) VALUES ('%s')""", TablesNames.ADMINTOKEN, ColumnNames.ADMINTOKENCOL, adminToken);
         realizeUpdateQuery(insertQuery);
     }
 
@@ -43,10 +49,13 @@ public class AdminTokenHandler extends ConnectionHandler {
      * @throws SQLException database exception
      */
     public void showTable() throws SQLException {
-        String selectQuery = "SELECT * FROM admin_token";
+        String selectQuery = String.format("SELECT * FROM %s", TablesNames.ADMINTOKEN);
         ResultSet queryResult = executeSelectQuery(selectQuery);
         if (queryResult.next()) {
-            System.out.println(queryResult.getString(tokenColumn));
+            String token = queryResult.getString(ColumnNames.ADMINTOKENCOL.toString());
+            Supplier<String> tokenSupplier = ()-> token;
+            LoggerFactory.getLogger(AdminTokenHandler.class).info(tokenSupplier);
+
         }
     }
 }
