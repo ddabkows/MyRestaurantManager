@@ -14,7 +14,6 @@ public enum DBConnection {
 
     DBConnection() {
         try {
-            System.out.println("HELLO");
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/restaurantmanager",
                     "restaurantmanager",
                     "1013mintok14n");
