@@ -36,9 +36,9 @@ public class FoodTypesHandler extends ConnectionHandler {
     public void addCategories() {
         ArrayList<String> categories = new ArrayList<>();
         categories.add(Categories.STARTERS.toString());
-        categories.add(Categories.CALIFORNIAS.toString());
+        categories.add(Categories.URUMAKIS.toString());
         categories.add(Categories.MAKIS.toString());
-        categories.add(Categories.CHIRASHIS.toString());
+        categories.add(Categories.NIGIRIS.toString());
         for (String category : categories) {
             String insertQuery = String.format("""
                     INSERT IGNORE INTO %s (%s)
