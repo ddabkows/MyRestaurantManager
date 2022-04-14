@@ -34,13 +34,17 @@ public class TokenHandler extends ConnectionHandler {
         ArrayList<String> tokens = new ArrayList<>();
         tokens.add(encrypt("Kordasek35"));
         for (String token : tokens) {
-            String insertQuery = String.format("INSERT IGNORE INTO %s (%s) VALUES ('%s')", TablesNames.TOKEN, ColumnNames.TOKENCOL, token);
+            String insertQuery = String.format("""
+                    INSERT IGNORE INTO %s (%s)
+                    VALUES ('%s')""", TablesNames.TOKEN, ColumnNames.TOKENCOL, token);
             realizeUpdateQuery(insertQuery);
         }
     }
 
     public void showTable() throws SQLException {
-        String selectQuery = String.format("SELECT * FROM %s", TablesNames.TOKEN);
+        String selectQuery = String.format("""
+                SELECT *
+                FROM %s""", TablesNames.TOKEN);
         ResultSet queryResult = executeSelectQuery(selectQuery);
         while (queryResult.next()) {
             String token = queryResult.getString(ColumnNames.TOKENCOL.toString());

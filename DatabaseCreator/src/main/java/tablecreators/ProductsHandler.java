@@ -8,7 +8,6 @@ import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.function.Supplier;
 
 public class ProductsHandler extends ConnectionHandler {
@@ -36,25 +35,32 @@ public class ProductsHandler extends ConnectionHandler {
     }
 
     public void addStarters() throws SQLException {
-        ArrayList<String> starters = new ArrayList<>();
-        starters.add(Starters.EDAMAME.toString());
-        starters.add(Starters.GYOZA.toString());
-        starters.add(Starters.KARAAGE.toString());
-        String getCategoryQuery = String.format("SELECT id FROM %s WHERE %s = '%s'", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, Categories.STARTERS);
+        String getCategoryQuery = String.format("""
+                SELECT id
+                FROM %s
+                WHERE %s = '%s'""", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, Categories.STARTERS);
         ResultSet categoryResultSet = executeSelectQuery(getCategoryQuery);
         categoryResultSet.next();
         int categoryID = categoryResultSet.getInt("id");
-        for (String starter : starters) {
-            String insertQuery = String.format("INSERT IGNORE INTO %s (%s, %s) VALUES ('%s', %d)", TablesNames.PRODUCT,
-                    ColumnNames.PRODUCTNAME, ColumnNames.CATEGORYCOL, starter, categoryID);
+        for (Starters starter : Starters.values()) {
+            String insertQuery = String.format("""
+                            INSERT IGNORE INTO %s (%s, %s)
+                            VALUES ('%s', %d)""", TablesNames.PRODUCT,
+                    ColumnNames.PRODUCTNAME, ColumnNames.CATEGORYCOL, starter.toString(), categoryID);
             realizeUpdateQuery(insertQuery);
         }
     }
 
     public void showTable() throws SQLException {
-        String selectQuery = String.format("SELECT %s.id, %s, %s.%s FROM %s INNER JOIN %s ON %s.%s=%s.%s",
+        String selectQuery = String.format("""
+                        SELECT %s.id, %s, %s.%s
+                        FROM %s
+                        INNER JOIN %s
+                        ON %s.%s=%s.%s
+                        WHERE %s.%s = '%s'""",
                 TablesNames.PRODUCT, ColumnNames.PRODUCTNAME, TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, TablesNames.PRODUCT,
-                TablesNames.CATEGORY, TablesNames.PRODUCT, ColumnNames.CATEGORYCOL, TablesNames.CATEGORY, "id");
+                TablesNames.CATEGORY, TablesNames.PRODUCT, ColumnNames.CATEGORYCOL, TablesNames.CATEGORY, "id",
+                TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, Categories.STARTERS);
         ResultSet queryResult = executeSelectQuery(selectQuery);
         while (queryResult.next()) {
             String product = queryResult.getString(ColumnNames.PRODUCTNAME.toString());

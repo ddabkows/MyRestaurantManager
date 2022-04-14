@@ -41,7 +41,8 @@ public class AdminTokenHandler extends ConnectionHandler {
     public void addAdminToken() throws NoSuchAlgorithmException {
         String adminToken = encrypt("1011str1012t1013mintok14n");
         String insertQuery = String.format("""
-                INSERT IGNORE INTO %s (%s) VALUES ('%s')""", TablesNames.ADMINTOKEN, ColumnNames.ADMINTOKENCOL, adminToken);
+                INSERT IGNORE INTO %s (%s)
+                VALUES ('%s')""", TablesNames.ADMINTOKEN, ColumnNames.ADMINTOKENCOL, adminToken);
         realizeUpdateQuery(insertQuery);
     }
 
@@ -49,7 +50,9 @@ public class AdminTokenHandler extends ConnectionHandler {
      * @throws SQLException database exception
      */
     public void showTable() throws SQLException {
-        String selectQuery = String.format("SELECT * FROM %s", TablesNames.ADMINTOKEN);
+        String selectQuery = String.format("""
+                SELECT *
+                FROM %s""", TablesNames.ADMINTOKEN);
         ResultSet queryResult = executeSelectQuery(selectQuery);
         if (queryResult.next()) {
             String token = queryResult.getString(ColumnNames.ADMINTOKENCOL.toString());

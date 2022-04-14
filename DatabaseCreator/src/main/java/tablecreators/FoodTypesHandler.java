@@ -40,13 +40,17 @@ public class FoodTypesHandler extends ConnectionHandler {
         categories.add(Categories.MAKIS.toString());
         categories.add(Categories.CHIRASHIS.toString());
         for (String category : categories) {
-            String insertQuery = String.format("INSERT IGNORE INTO %s (%s) VALUES ('%s')", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, category);
+            String insertQuery = String.format("""
+                    INSERT IGNORE INTO %s (%s)
+                    VALUES ('%s')""", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, category);
             realizeUpdateQuery(insertQuery);
         }
     }
 
     public void showTable() throws SQLException {
-        String selectQuery = String.format("SELECT * FROM %s", TablesNames.CATEGORY);
+        String selectQuery = String.format("""
+                SELECT *
+                FROM %s""", TablesNames.CATEGORY);
         ResultSet queryResult = executeSelectQuery(selectQuery);
         while (queryResult.next()) {
             String category = queryResult.getString(ColumnNames.CATEGORYCOL.toString());
