@@ -1,9 +1,6 @@
 package tablecreators;
 
-import databaseparams.Categories;
-import databaseparams.ColumnNames;
-import databaseparams.Starters;
-import databaseparams.TablesNames;
+import databaseparams.*;
 import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.sql.ResultSet;
@@ -31,22 +28,25 @@ public class ProductsHandler extends ConnectionHandler {
     }
 
     public void addProducts() throws SQLException {
-        addStarters();
+        addByCategory(Starters.values());
+        addByCategory(Urumakis.values());
     }
 
-    public void addStarters() throws SQLException {
+    public void addByCategory(Enum[] category) throws SQLException {
         String getCategoryQuery = String.format("""
-                SELECT id
-                FROM %s
-                WHERE %s = '%s'""", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, Categories.STARTERS);
+            SELECT id
+            FROM %s
+            WHERE %s = '%s'
+            """, TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, Categories.URUMAKIS);
         ResultSet categoryResultSet = executeSelectQuery(getCategoryQuery);
         categoryResultSet.next();
         int categoryID = categoryResultSet.getInt("id");
-        for (Starters starter : Starters.values()) {
+        for (Enum urumaki : category) {
             String insertQuery = String.format("""
-                            INSERT IGNORE INTO %s (%s, %s)
-                            VALUES ('%s', %d)""", TablesNames.PRODUCT,
-                    ColumnNames.PRODUCTNAME, ColumnNames.CATEGORYCOL, starter.toString(), categoryID);
+                    INSERT IGNORE INTO %s (%s, %s)
+                    VALUES ('%s', %d)
+                    """, TablesNames.PRODUCT,
+                    ColumnNames.PRODUCTNAME, ColumnNames.CATEGORYCOL, urumaki.toString(), categoryID);
             realizeUpdateQuery(insertQuery);
         }
     }
@@ -57,10 +57,9 @@ public class ProductsHandler extends ConnectionHandler {
                         FROM %s
                         INNER JOIN %s
                         ON %s.%s=%s.%s
-                        WHERE %s.%s = '%s'""",
+                        """,
                 TablesNames.PRODUCT, ColumnNames.PRODUCTNAME, TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, TablesNames.PRODUCT,
-                TablesNames.CATEGORY, TablesNames.PRODUCT, ColumnNames.CATEGORYCOL, TablesNames.CATEGORY, "id",
-                TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, Categories.STARTERS);
+                TablesNames.CATEGORY, TablesNames.PRODUCT, ColumnNames.CATEGORYCOL, TablesNames.CATEGORY, "id");
         ResultSet queryResult = executeSelectQuery(selectQuery);
         while (queryResult.next()) {
             String product = queryResult.getString(ColumnNames.PRODUCTNAME.toString());
