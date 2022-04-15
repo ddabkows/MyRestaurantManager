@@ -28,8 +28,9 @@ public class ProductsHandler extends ConnectionHandler {
     }
 
     public void addProducts() throws SQLException {
-        addByCategory(Starters.values());
-        addByCategory(Urumakis.values());
+        for (Categories category : Categories.values()) {
+            addByCategory(category.getComponents());
+        }
     }
 
     public void addByCategory(Enum[] category) throws SQLException {
