@@ -9,26 +9,17 @@ import java.util.function.Supplier;
 
 import packettypes.*;
 
-public class TokenSender {
-    Socket socket;
-    public TokenSender(Socket socketToSet) {
-        this.socket = socketToSet;
+public class TokenSender extends Sender {
+    public TokenSender(Socket socket) {
+        super(socket);
     }
 
     public boolean sendPacket(String token) throws IOException {
-        OutputStream outputStream = socket.getOutputStream();
-        PrintWriter writer = new PrintWriter(outputStream, true);
+        PrintWriter writer = getSocketWriter();
 
         writer.println(preparePacket(token));
 
-        InputStream inputStream = socket.getInputStream();
-        BufferedReader reader = new BufferedReader((new InputStreamReader(inputStream)));
-
-        String answer = reader.readLine();
-
-        Supplier<String> answerSupplier = ()->answer;
-        LoggerFactory.getLogger(TokenSender.class).info(answerSupplier);
-        return getAnswer(answer);
+        return getAnswer(getSocketAnswer());
     }
 
     public boolean getAnswer(String answer) {

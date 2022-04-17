@@ -21,7 +21,7 @@ public class Controller {
 
     public void setClientSocket(ClientSocketBuilder clientSocketToSet) {this.clientSocket = clientSocketToSet;}
 
-    public ClientSocketBuilder getClientSocket() {return this.clientSocket;}
+    protected ClientSocketBuilder getClientSocket() {return this.clientSocket;}
 
     protected FXMLLoader setRoot(Resources resource) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(resource.toString()));

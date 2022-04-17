@@ -3,8 +3,10 @@ package controllers.launcherwindows;
 
 import java.io.IOException;
 
+import controllers.restaurantview.MainMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 
 import client.TokenSender;
@@ -18,7 +20,7 @@ public class LauncherController extends Controller {
     public TextField tokenTextField;
 
     public void getToRestaurant(ActionEvent actionEvent) throws IOException {
-        TokenSender tokenSender = new TokenSender(super.getClientSocket().getSocket());
+        TokenSender tokenSender = new TokenSender(getClientSocket().getSocket());
         if (tokenSender.sendPacket(tokenTextField.getText())) {
             goToMainMenu(actionEvent);
         } else {
@@ -27,7 +29,10 @@ public class LauncherController extends Controller {
     }
 
     private void goToMainMenu(ActionEvent actionEvent) throws IOException {
-        setRoot(Resources.MAINMENU);
+        FXMLLoader loader = setRoot(Resources.MAINMENU);
+        MainMenuController mainMenuController = loader.getController();
+        mainMenuController.setClientSocket(getClientSocket());
+        mainMenuController.setMainMenuController();
         setStage(actionEvent);
     }
 

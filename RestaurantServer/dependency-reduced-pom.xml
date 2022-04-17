@@ -23,7 +23,7 @@
               <shadedArtifactAttached>false</shadedArtifactAttached>
               <transformers>
                 <transformer>
-                  <mainClass>main.Main</mainClass>
+                  <mainClass>main.Server</mainClass>
                 </transformer>
               </transformers>
             </configuration>
