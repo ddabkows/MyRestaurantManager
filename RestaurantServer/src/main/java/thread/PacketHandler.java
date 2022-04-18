@@ -9,6 +9,7 @@ import dao.AdminTokenDAO;
 import dao.TokenDAO;
 import packettypes.*;
 import restaurant.Restaurant;
+import restaurant.Table;
 
 public class PacketHandler {
     private final Restaurant restaurant;
@@ -23,9 +24,18 @@ public class PacketHandler {
         if (Objects.equals(packetType, TokenSenderColumns.TYPE.toString())) {
             return getTokenAnswer(receivedPacket.getString(TokenSenderColumns.TOKENCOL.toString()));}
         if (Objects.equals(packetType, AllTablesColumns.TYPE.toString())) {
-            return getAllTablesAnswer(receivedPacket);
-        }
+            return getAllTablesAnswer(receivedPacket);}
+        if (Objects.equals(packetType, OpenTableColumns.TYPE.toString())) {
+            return getOpenTableAnswer(receivedPacket);}
         return "";
+    }
+
+    public String getOpenTableAnswer(JSONObject packet) {
+        JSONObject answerPacket = new JSONObject();
+        answerPacket.put(new MainColumn().getMainColumn(), OpenTableColumns.ANSWERTYPE.toString());
+        Table tableToOpen = restaurant.getTable(packet.getString(OpenTableColumns.TABLE.toString()));
+        answerPacket.put(OpenTableColumns.OPENED.toString(), tableToOpen.open());
+        return answerPacket.toString();
     }
 
     public String getAllTablesAnswer(JSONObject packet) {

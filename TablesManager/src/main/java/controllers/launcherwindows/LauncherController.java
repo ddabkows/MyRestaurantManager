@@ -23,10 +23,7 @@ public class LauncherController extends Controller {
 
     public void getToRestaurant(ActionEvent actionEvent) throws IOException {
         Pane mainPane = (Pane)getStage(actionEvent).getScene().getRoot();
-        ProgressIndicator progressIndicator = new ProgressIndicator();
-        progressIndicator.setPrefWidth(mainPane.getWidth()/30.0);
-        progressIndicator.setPrefHeight(mainPane.getHeight()/30.0);
-        mainPane.getChildren().add(progressIndicator);
+        ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         TokenSender tokenSender = new TokenSender(getClientSocket().getSocket());
         if (tokenSender.sendPacket(tokenTextField.getText())) {
             goToMainMenu(actionEvent);

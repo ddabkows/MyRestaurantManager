@@ -16,6 +16,10 @@ public class Restaurant {
         }
     }
 
+    public Table getTable(String tableName) {
+        return tables.get(tableName);
+    }
+
     public JSONObject getAllTablesStatus() {
         JSONObject statuses = new JSONObject();
         for(Map.Entry<String, Table> table : tables.entrySet()) {

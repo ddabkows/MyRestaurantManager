@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -27,6 +29,14 @@ public class Controller {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(resource.toString()));
         root = loader.load();
         return loader;
+    }
+
+    protected ProgressIndicator setProgressIndicator(Pane mainPane) {
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setPrefWidth(mainPane.getWidth()/30.0);
+        progressIndicator.setPrefHeight(mainPane.getHeight()/30.0);
+        mainPane.getChildren().add(progressIndicator);
+        return  progressIndicator;
     }
 
     protected Parent getRoot() {return this.root;}

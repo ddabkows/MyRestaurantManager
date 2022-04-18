@@ -37,14 +37,6 @@ public class MainMenuController extends Controller {
         fetchAllTablesStatus();
     }
 
-    private ProgressIndicator setProgressIndicator(Pane mainPane) {
-        ProgressIndicator progressIndicator = new ProgressIndicator();
-        progressIndicator.setPrefWidth(mainPane.getWidth()/30.0);
-        progressIndicator.setPrefHeight(mainPane.getHeight()/30.0);
-        mainPane.getChildren().add(progressIndicator);
-        return  progressIndicator;
-    }
-
     public void setControllerStage(Stage controllerStageToSet) {this.controllerStage = controllerStageToSet;}
 
     private void fetchAllTablesStatus() throws IOException {
