@@ -34,7 +34,7 @@ public class PacketHandler {
         JSONObject answerPacket = new JSONObject();
         answerPacket.put(new MainColumn().getMainColumn(), OpenTableColumns.ANSWERTYPE.toString());
         Table tableToOpen = restaurant.getTable(packet.getString(OpenTableColumns.TABLE.toString()));
-        answerPacket.put(OpenTableColumns.OPENED.toString(), tableToOpen.open());
+        answerPacket.put(OpenTableColumns.OPENED.toString(), tableToOpen.open(packet.getInt(OpenTableColumns.COUNT.toString())));
         return answerPacket.toString();
     }
 

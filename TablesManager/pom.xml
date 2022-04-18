@@ -45,6 +45,11 @@
             <artifactId>Packets</artifactId>
             <version>0.0</version>
         </dependency>
+        <dependency>
+            <groupId>MyRestaurantManager</groupId>
+            <artifactId>DatabaseContent</artifactId>
+            <version>0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

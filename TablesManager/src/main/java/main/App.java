@@ -7,11 +7,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.function.Supplier;
 import org.junit.platform.commons.logging.LoggerFactory;
 
 import resourceloader.ResourceLoader;
+import resources.Images;
 import resources.Resources;
 import client.ClientSocketBuilder;
 import controllers.launcherwindows.LauncherController;
@@ -28,6 +32,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         // Check of all the resources
+        checkImages();
         checkResources();
         // Setting the launcher window resource
         FXMLLoader rootLoader = ResourceLoader.getResource(Resources.LAUNCHER);
@@ -50,6 +55,20 @@ public class App extends Application {
      */
     public static void app(String[] args) {
         launch(args);
+    }
+
+    private void checkImages() {
+        for (Images image : Images.values()) {
+            try {
+                Supplier<String> checkMessage = ()-> "Checking image : " + image + "...";
+                LoggerFactory.getLogger(Main.class).info(checkMessage);
+                new FileInputStream(image.toString());
+            } catch (FileNotFoundException error) {
+                Supplier<String> errorMessage = ()-> image + " not found. Force shut down.";
+                LoggerFactory.getLogger(Main.class).error(errorMessage);
+                System.exit(1);
+            }
+        }
     }
 
     /**Method created to check all the resources

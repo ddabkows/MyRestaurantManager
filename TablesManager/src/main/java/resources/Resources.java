@@ -6,8 +6,9 @@ package resources;
  */
 public enum Resources {
     // Window showed at the startup
-    LAUNCHER {public String toString() {return ResourcesDirectories.LAUNCHERDIR + "LauncherWindow.fxml";}},
+    LAUNCHER {public final String toString() {return ResourcesDirectories.LAUNCHERDIR + "LauncherWindow.fxml";}},
 
-    MAINMENU {public String toString() {return ResourcesDirectories.MAINMENUDIR + "MainMenuWindow.fxml";}},
-    OPENNEWTABLE {public String toString() {return ResourcesDirectories.MAINMENUDIR + "PeopleCountToTablePane.fxml";}},
+    MAINMENU {public final String toString() {return ResourcesDirectories.MAINMENUDIR + "MainMenuWindow.fxml";}},
+    OPENNEWTABLE {public final String toString() {return ResourcesDirectories.MAINMENUDIR + "PeopleCountToTablePane.fxml";}},
+    TABLEMENU {public final String toString() {return ResourcesDirectories.TABLEVIEW + "MainTableWindow.fxml";}},
 }

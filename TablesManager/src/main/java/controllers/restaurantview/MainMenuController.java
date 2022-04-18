@@ -2,14 +2,12 @@ package controllers.restaurantview;
 
 
 import client.OpenTableSender;
+import controllers.tableview.MainTableController;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.json.JSONObject;
@@ -31,6 +29,14 @@ public class MainMenuController extends Controller {
     PeopleCountToTableController peopleCountToTableController;
     private Stage controllerStage;
     Map<String, Button> buttons = new HashMap<>();
+
+    public void getToTable(ActionEvent actionEvent, String tableName) throws IOException {
+        FXMLLoader loader = setRoot(Resources.TABLEMENU);
+        MainTableController mainTableController = loader.getController();
+        mainTableController.setClientSocket(getClientSocket());
+        mainTableController.setTableWindow(tableName);
+        setStage(actionEvent);
+    }
 
     public void setMainMenuController() throws IOException {
         setButtons();
@@ -63,6 +69,11 @@ public class MainMenuController extends Controller {
             ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
             OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
             boolean openTableAnswer = openTableSender.sendPacket(tableName, 0);
+            if (openTableAnswer) {
+                getToTable(actionEvent, tableName);
+            } else {
+                fetchAllTablesStatus();
+            }
             mainPane.getChildren().remove(progressIndicator);
         } else {
             FXMLLoader peopleCountLoader = new FXMLLoader(getClass().getClassLoader().getResource(Resources.OPENNEWTABLE.toString()));
@@ -70,43 +81,9 @@ public class MainMenuController extends Controller {
             Pane mainPane = (Pane)getStage(actionEvent).getScene().getRoot();
             peopleCountToTableController = peopleCountLoader.getController();
             peopleCountToTableController.setCountInput(Integer.parseInt(peopleCountToTableController.peopleCountInputTextField.getText()));
-            peopleCountToTableController.people2.setOnAction(actionEvent1 -> handleCustomCount(tableName, 2));
-            peopleCountToTableController.people3.setOnAction(actionEvent1 -> handleCustomCount(tableName, 3));
-            peopleCountToTableController.people4.setOnAction(actionEvent1 -> handleCustomCount(tableName, 4));
-            peopleCountToTableController.people5.setOnAction(actionEvent1 -> handleCustomCount(tableName, 5));
-            peopleCountToTableController.people6.setOnAction(actionEvent1 -> handleCustomCount(tableName, 6));
-            peopleCountToTableController.peopleCountInputTextField.setOnKeyReleased(actionEvent1 -> {
-                if (!Objects.equals(peopleCountToTableController.peopleCountInputTextField.getText(), "")) {
-                    if (peopleCountToTableController.peopleCountInputTextField.getText().length() > 1) {
-                        confirmTextFieldText();
-                        peopleCountToTableController.peopleCountInputTextField.positionCaret(peopleCountToTableController.peopleCountInputTextField.getText().length());
-                    } else {
-                        if (!confirmTextFieldText()) {
-                            peopleCountToTableController.peopleCountInputTextField.setText("");
-                        } else {
-                            peopleCountToTableController.peopleCountInputTextField.positionCaret(peopleCountToTableController.peopleCountInputTextField.getText().length());
-                        }
-                    }
-                } else {
-                    peopleCountToTableController.setCountInput(0);
-                }
-            });
-            peopleCountToTableController.confirmButton.setOnAction(actionEvent1 -> {
-                ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
-                OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
-                try {
-                    boolean openTableAnswer = openTableSender.sendPacket(tableName, peopleCountToTableController.getCountInput());
-                } catch (IOException error) {
-                    logError(error);
-                }
-                mainPane.getChildren().remove(progressIndicator);
-            });
-            peopleCountToTableController.cancelButton.setOnAction(actionEvent1 -> {
-                for (Button tableButton : buttons.values()) {
-                    tableButton.setDisable(false);
-                }
-                mainPane.getChildren().remove(peopleCountPane);
-            });
+            setCustomButtons(tableName);
+            setTextField();
+            setConfirmCancelButtons(mainPane, tableName, peopleCountPane);
             double panesDiffX = mainPane.getWidth() - peopleCountPane.getPrefWidth();
             double panesDiffY = mainPane.getHeight() - peopleCountPane.getPrefHeight();
             peopleCountPane.setLayoutX(panesDiffX / 2);
@@ -116,6 +93,57 @@ public class MainMenuController extends Controller {
             }
             mainPane.getChildren().add(peopleCountPane);
         }
+    }
+
+    private void setConfirmCancelButtons(Pane mainPane, String tableName, Pane peopleCountPane) {
+        peopleCountToTableController.confirmButton.setOnAction(actionEvent1 -> {
+            ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
+            OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
+            try {
+                boolean openTableAnswer = openTableSender.sendPacket(tableName, peopleCountToTableController.getCountInput());
+                if (openTableAnswer) {
+                    getToTable(actionEvent1, tableName);
+                } else {
+                    fetchAllTablesStatus();
+                }
+            } catch (IOException error) {
+                logError(error);
+            }
+            mainPane.getChildren().remove(progressIndicator);
+        });
+        peopleCountToTableController.cancelButton.setOnAction(actionEvent1 -> {
+            for (Button tableButton : buttons.values()) {
+                tableButton.setDisable(false);
+            }
+            mainPane.getChildren().remove(peopleCountPane);
+        });
+    }
+
+    private void setTextField() {
+        peopleCountToTableController.peopleCountInputTextField.setOnKeyReleased(actionEvent1 -> {
+            if (!Objects.equals(peopleCountToTableController.peopleCountInputTextField.getText(), "")) {
+                if (peopleCountToTableController.peopleCountInputTextField.getText().length() > 1) {
+                    confirmTextFieldText();
+                    peopleCountToTableController.peopleCountInputTextField.positionCaret(peopleCountToTableController.peopleCountInputTextField.getText().length());
+                } else {
+                    if (!confirmTextFieldText()) {
+                        peopleCountToTableController.peopleCountInputTextField.setText("");
+                    } else {
+                        peopleCountToTableController.peopleCountInputTextField.positionCaret(peopleCountToTableController.peopleCountInputTextField.getText().length());
+                    }
+                }
+            } else {
+                peopleCountToTableController.setCountInput(0);
+            }
+        });
+    }
+
+    private void setCustomButtons(String tableName) {
+        peopleCountToTableController.people2.setOnAction(actionEvent1 -> handleCustomCount(tableName, 2, actionEvent1));
+        peopleCountToTableController.people3.setOnAction(actionEvent1 -> handleCustomCount(tableName, 3, actionEvent1));
+        peopleCountToTableController.people4.setOnAction(actionEvent1 -> handleCustomCount(tableName, 4, actionEvent1));
+        peopleCountToTableController.people5.setOnAction(actionEvent1 -> handleCustomCount(tableName, 5, actionEvent1));
+        peopleCountToTableController.people6.setOnAction(actionEvent1 -> handleCustomCount(tableName, 6, actionEvent1));
     }
 
     public boolean confirmTextFieldText() {
@@ -131,13 +159,18 @@ public class MainMenuController extends Controller {
         return passed;
     }
 
-    public void handleCustomCount(String tableName, int customCount) {
+    public void handleCustomCount(String tableName, int customCount, ActionEvent actionEvent) {
         peopleCountToTableController.setCountInput(customCount);
         Pane mainPane = (Pane)controllerStage.getScene().getRoot();
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
         try {
             boolean openTableAnswer = openTableSender.sendPacket(tableName, 2);
+            if (openTableAnswer) {
+                getToTable(actionEvent, tableName);
+            } else {
+                fetchAllTablesStatus();
+            }
         } catch (IOException throwables) {
             logError(throwables);
         }
