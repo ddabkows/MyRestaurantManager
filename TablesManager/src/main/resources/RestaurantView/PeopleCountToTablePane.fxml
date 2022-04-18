@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.restaurantview.PeopleCountToTableController">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="200.0" strokeType="INSIDE" width="300.0" />
+   <Button fx:id="people2" layoutX="15.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" style="-fx-background-color: #f8b195;" text="2" textFill="#c06c84" />
+   <Button fx:id="people3" layoutX="70.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" style="-fx-background-color: #f8b195;" text="3" textFill="#c06c84" />
+   <Button fx:id="people4" layoutX="125.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" style="-fx-background-color: #f8b195;" text="4" textFill="#c06c84" />
+   <Button fx:id="people5" layoutX="180.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" style="-fx-background-color: #f8b195;" text="5" textFill="#c06c84" />
+   <Button fx:id="people6" layoutX="235.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" style="-fx-background-color: #f8b195;" text="6" textFill="#c06c84" />
+   <TextField fx:id="peopleCountInputTextField" alignment="CENTER" layoutX="70.0" layoutY="80.0" prefHeight="39.0" prefWidth="160.0" style="-fx-background-color: #f8b195;" text="7">
+      <font>
+         <Font name="Lato Bold Italic" size="20.0" />
+      </font>
+   </TextField>
+   <Button layoutX="15.0" layoutY="80.0" mnemonicParsing="false" onAction="#decreaseInputCount" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #f8b195;" text="-" textFill="#c06c84">
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font>
+   </Button>
+   <Button layoutX="249.0" layoutY="80.0" mnemonicParsing="false" onAction="#increaseInputCount" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #f8b195;" text="+" textFill="#c06c84">
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font>
+   </Button>
+   <Label alignment="CENTER" layoutX="40.0" layoutY="2.0" prefHeight="39.0" prefWidth="235.0" text="Table" textFill="#f8b195">
+      <font>
+         <Font name="Lato Bold Italic" size="19.0" />
+      </font>
+   </Label>
+   <Button fx:id="confirmButton" layoutX="15.0" layoutY="133.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="121.0" style="-fx-background-color: #f8b195;" text="Confirm" textFill="#c06c84">
+      <font>
+         <Font name="Lato Bold Italic" size="24.0" />
+      </font></Button>
+   <Button fx:id="cancelButton" layoutX="159.0" layoutY="133.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="121.0" style="-fx-background-color: #f8b195;" text="Cancel" textFill="#c06c84">
+      <font>
+         <Font name="Lato Bold Italic" size="24.0" />
+      </font></Button>
+</AnchorPane>

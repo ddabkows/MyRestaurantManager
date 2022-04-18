@@ -1,7 +1,7 @@
 package restaurant;
 
 public class Table {
-    private boolean isOpen = true;
+    private boolean isOpen = false;
 
     public boolean isOpen() {return this.isOpen;}
 

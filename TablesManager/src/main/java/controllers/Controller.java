@@ -29,6 +29,8 @@ public class Controller {
         return loader;
     }
 
+    protected Parent getRoot() {return this.root;}
+
     protected Stage getStage(ActionEvent actionEvent) {
         return (Stage)((Node) actionEvent.getSource()).getScene().getWindow();}
 

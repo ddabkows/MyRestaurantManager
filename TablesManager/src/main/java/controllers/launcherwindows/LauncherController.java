@@ -7,10 +7,12 @@ import controllers.restaurantview.MainMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
 
 import client.TokenSender;
 import controllers.Controller;
+import javafx.scene.layout.Pane;
 import resources.Resources;
 
 
@@ -20,11 +22,17 @@ public class LauncherController extends Controller {
     public TextField tokenTextField;
 
     public void getToRestaurant(ActionEvent actionEvent) throws IOException {
+        Pane mainPane = (Pane)getStage(actionEvent).getScene().getRoot();
+        ProgressIndicator progressIndicator = new ProgressIndicator();
+        progressIndicator.setPrefWidth(mainPane.getWidth()/30.0);
+        progressIndicator.setPrefHeight(mainPane.getHeight()/30.0);
+        mainPane.getChildren().add(progressIndicator);
         TokenSender tokenSender = new TokenSender(getClientSocket().getSocket());
         if (tokenSender.sendPacket(tokenTextField.getText())) {
             goToMainMenu(actionEvent);
         } else {
             System.out.println("Rejected");
+            mainPane.getChildren().remove(progressIndicator);
         }
     }
 
@@ -32,6 +40,7 @@ public class LauncherController extends Controller {
         FXMLLoader loader = setRoot(Resources.MAINMENU);
         MainMenuController mainMenuController = loader.getController();
         mainMenuController.setClientSocket(getClientSocket());
+        mainMenuController.setControllerStage(getStage(actionEvent));
         mainMenuController.setMainMenuController();
         setStage(actionEvent);
     }
