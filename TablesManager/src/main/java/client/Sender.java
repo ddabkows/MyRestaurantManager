@@ -1,5 +1,6 @@
 package client;
 
+import client.launchersenders.TokenSender;
 import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.io.*;

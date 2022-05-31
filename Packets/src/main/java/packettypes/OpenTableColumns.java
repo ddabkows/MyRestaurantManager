@@ -8,4 +8,5 @@ public enum OpenTableColumns {
     COUNT{public final String toString() {return "Count";}},
 
     OPENED{public final String toString() {return "Opened";}},
+    MESSAGE{public final String toString() {return "Message";}},
 }

@@ -1,7 +1,7 @@
 package main;
 
 
-import client.ExitSender;
+import client.exit.ExitSender;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,7 +17,7 @@ import org.junit.platform.commons.logging.LoggerFactory;
 import resourceloader.ResourceLoader;
 import resources.Images;
 import resources.Resources;
-import client.ClientSocketBuilder;
+import client.socketbuilder.ClientSocketBuilder;
 import controllers.launcherwindows.LauncherController;
 
 /**App class that creates the main program Window

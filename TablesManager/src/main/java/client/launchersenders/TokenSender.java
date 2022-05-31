@@ -1,11 +1,11 @@
-package client;
+package client.launchersenders;
 
+import client.Sender;
 import org.json.JSONObject;
-import org.junit.platform.commons.logging.LoggerFactory;
+
 import java.net.*;
 import java.io.*;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 import packettypes.*;
 

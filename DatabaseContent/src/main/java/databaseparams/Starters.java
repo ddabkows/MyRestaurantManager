@@ -13,5 +13,6 @@ public enum Starters {
         this.price = priceToSet;
     }
 
+    public float getPrice() {return this.price;}
     public String getDescription() {return this.description;}
 }

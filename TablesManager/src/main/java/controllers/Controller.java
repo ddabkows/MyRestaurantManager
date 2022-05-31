@@ -1,6 +1,7 @@
 package controllers;
 
 
+import controllers.restaurantview.MainMenuController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,7 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import client.ClientSocketBuilder;
+import client.socketbuilder.ClientSocketBuilder;
 import resources.Resources;
 
 
@@ -48,5 +49,14 @@ public class Controller {
         Stage stage = getStage(actionEvent);
         Scene scene = new Scene(root);
         stage.setScene(scene);
+    }
+
+    protected void goToMainMenu(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = setRoot(Resources.MAINMENU);
+        MainMenuController mainMenuController = loader.getController();
+        mainMenuController.setClientSocket(getClientSocket());
+        mainMenuController.setControllerStage(getStage(actionEvent));
+        mainMenuController.setMainMenuController();
+        setStage(actionEvent);
     }
 }

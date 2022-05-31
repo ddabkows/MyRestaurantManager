@@ -1,4 +1,4 @@
-package client;
+package client.socketbuilder;
 
 
 import org.junit.platform.commons.logging.LoggerFactory;

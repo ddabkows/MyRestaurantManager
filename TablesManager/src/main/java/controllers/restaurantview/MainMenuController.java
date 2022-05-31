@@ -1,7 +1,7 @@
 package controllers.restaurantview;
 
 
-import client.OpenTableSender;
+import client.restaurantviewsenders.OpenTableSender;
 import controllers.tableview.MainTableController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import client.AllTablesSender;
+import client.restaurantviewsenders.AllTablesSender;
 import controllers.Controller;
 import org.junit.platform.commons.logging.LoggerFactory;
 import resources.Resources;
@@ -105,11 +105,15 @@ public class MainMenuController extends Controller {
                     getToTable(actionEvent1, tableName);
                 } else {
                     fetchAllTablesStatus();
+                    for (Button tableButton : buttons.values()) {
+                        tableButton.setDisable(false);
+                    }
                 }
             } catch (IOException error) {
                 logError(error);
             }
             mainPane.getChildren().remove(progressIndicator);
+            mainPane.getChildren().remove(peopleCountPane);
         });
         peopleCountToTableController.cancelButton.setOnAction(actionEvent1 -> {
             for (Button tableButton : buttons.values()) {
@@ -165,7 +169,7 @@ public class MainMenuController extends Controller {
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
         try {
-            boolean openTableAnswer = openTableSender.sendPacket(tableName, 2);
+            boolean openTableAnswer = openTableSender.sendPacket(tableName, customCount);
             if (openTableAnswer) {
                 getToTable(actionEvent, tableName);
             } else {

@@ -1,5 +1,6 @@
-package client;
+package client.restaurantviewsenders;
 
+import client.Sender;
 import org.json.JSONObject;
 import packettypes.MainColumn;
 import packettypes.OpenTableColumns;

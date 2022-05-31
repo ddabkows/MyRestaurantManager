@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.tableview.MainTableController">
+<AnchorPane fx:id="mainPane" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.tableview.MainTableController">
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="579.0" strokeType="INSIDE" width="951.0" />
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8b195" height="578.0" layoutX="148.0" layoutY="1.0" strokeType="INSIDE" width="656.0" />
    <Label fx:id="tableNameLabel" alignment="CENTER" layoutX="148.0" layoutY="25.0" prefHeight="47.0" prefWidth="531.0" text="Table" textFill="#355c7d">
@@ -17,14 +14,26 @@
          <Font name="Lato Bold Italic" size="37.0" />
       </font>
    </Label>
-   <ListView fx:id="categoriesListView" layoutX="155.0" layoutY="71.0" orientation="HORIZONTAL" prefHeight="47.0" prefWidth="643.0" style="-fx-background-color: #f8b195; -fx-text-fill: #f8b195; -fx-font-size: 21; -fx-font-family: Lato; -fx-font-weight: bold; fx-font-style: italic; -fx-control-inner-background: #f8b195;" />
+   <ListView fx:id="categoriesListView" layoutX="155.0" layoutY="71.0" orientation="HORIZONTAL" prefHeight="47.0" prefWidth="643.0" style="-fx-background-color: #f8b195; -fx-text-fill: #f8b195; -fx-font-size: 21; -fx-font-family: Lato; -fx-font-weight: bold; fx-font-style: italic; -fx-control-inner-background: #f8b195; -fx-selection-bar: #c06c84;" />
+   <ListView fx:id="productsListView" layoutX="171.0" layoutY="143.0" prefHeight="370.0" prefWidth="242.0" style="-fx-background-color: #f8b195; -fx-text-fill: #f8b195; -fx-font-size: 21; -fx-font-family: Lato; -fx-font-weight: bold; fx-font-style: italic; -fx-control-inner-background: #f8b195; -fx-selection-bar: #c06c84; -fx-border-color: #355c7d; -fx-border-width: 4; -fx-border-insets: -4;" />
    <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
    <ImageView fitHeight="57.0" fitWidth="62.0" layoutX="685.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-      <Image url="@../img/peopleIcon.png"/>
+      <Image url="@../img/peopleIcon.png" />
    </ImageView>
-   <TextField fx:id="peopleCountTextField" layoutX="742.0" layoutY="25.0" onKeyReleased="#setPeopleCount" onMousePressed="#positionCaret" prefHeight="47.0" prefWidth="62.0" style="-fx-background-color: #355c7d; -fx-text-fill: #c06c84;" text="12">
+   <TextField fx:id="peopleCountTextField" alignment="CENTER" layoutX="742.0" layoutY="25.0" onKeyReleased="#setPeopleCount" onMousePressed="#positionCaret" prefHeight="47.0" prefWidth="62.0" style="-fx-background-color: #355c7d; -fx-text-fill: #c06c84;" text="12">
       <font>
          <Font name="Lato Bold Italic" size="24.0" />
       </font>
    </TextField>
+   <Button alignment="CENTER" layoutX="162.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="38.0" prefWidth="76.0" style="-fx-background-color: #355c7d; -fx-text-fill: #c06c84;" text="Back">
+      <font>
+         <Font name="Lato Bold Italic" size="19.0" />
+      </font>
+   </Button>
+   <Button alignment="CENTER" layoutX="167.0" layoutY="527.0" mnemonicParsing="false" onAction="#close" prefHeight="38.0" prefWidth="76.0" style="-fx-background-color: #355c7d; -fx-text-fill: #c06c84;" text="Close">
+      <font>
+         <Font name="Lato Bold Italic" size="19.0" />
+      </font>
+   </Button>
+   <ListView fx:id="addedProductsListView" layoutX="437.0" layoutY="143.0" prefHeight="370.0" prefWidth="345.0" style="-fx-background-color: #f8b195; -fx-text-fill: #f8b195; -fx-font-size: 21; -fx-font-family: Lato; -fx-font-weight: bold; fx-font-style: italic; -fx-control-inner-background: #f8b195; -fx-selection-bar: #c06c84; -fx-border-color: #c06c84; -fx-border-width: 4; -fx-border-insets: -4;" />
 </AnchorPane>
