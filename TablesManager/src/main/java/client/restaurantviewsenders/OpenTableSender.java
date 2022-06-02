@@ -13,7 +13,7 @@ import java.util.Objects;
 public class OpenTableSender extends Sender {
     public OpenTableSender(Socket socket) {super(socket);}
 
-    public  boolean sendPacket(String table, int peopleCount) throws IOException {
+    public JSONObject sendPacket(String table, int peopleCount) throws IOException {
         PrintWriter writer = getSocketWriter();
 
         writer.println(preparePacket(table, peopleCount));
@@ -21,12 +21,12 @@ public class OpenTableSender extends Sender {
         return getAnswer(getSocketAnswer());
     }
 
-    public boolean getAnswer(String answer) {
+    public JSONObject getAnswer(String answer) {
         JSONObject answerPacket = new JSONObject(answer);
         if (!Objects.equals(answerPacket.getString(new MainColumn().getMainColumn()), OpenTableColumns.ANSWERTYPE.toString())) {
-            return false;
+            return null;
         }
-        return answerPacket.getBoolean(OpenTableColumns.OPENED.toString());
+        return answerPacket;
     }
 
     public String preparePacket(String table, int peopleCount) {

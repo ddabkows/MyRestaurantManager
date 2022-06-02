@@ -104,8 +104,11 @@ public class PacketHandler {
         JSONObject answerPacket = new JSONObject();
         answerPacket.put(new MainColumn().getMainColumn(), OpenTableColumns.ANSWERTYPE.toString());
         Table tableToOpen = restaurant.getTable(packet.getString(OpenTableColumns.TABLE.toString()));
-        String message = "Error, fetch all tables status.";
-        answerPacket.put(OpenTableColumns.OPENED.toString(), tableToOpen.open(packet.getInt(OpenTableColumns.COUNT.toString()), message));
+        String message = "Tables status not up to date.\nFetching data.";
+        answerPacket.put(OpenTableColumns.OPENED.toString(), tableToOpen.open(packet.getInt(OpenTableColumns.COUNT.toString())));
+        if (tableToOpen.getTableBusy()) {
+            message = "Unable to open.\nTable busy.";
+        }
         answerPacket.put(OpenTableColumns.MESSAGE.toString(), message);
         return answerPacket.toString();
     }

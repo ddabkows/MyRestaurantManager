@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -58,5 +59,13 @@ public class Controller {
         mainMenuController.setControllerStage(getStage(actionEvent));
         mainMenuController.setMainMenuController();
         setStage(actionEvent);
+    }
+
+    protected void alert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Warning ");
+        alert.setHeaderText(message);
+        alert.setContentText("");
+        alert.showAndWait();
     }
 }

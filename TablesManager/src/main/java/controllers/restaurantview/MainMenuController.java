@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 import client.restaurantviewsenders.AllTablesSender;
 import controllers.Controller;
 import org.junit.platform.commons.logging.LoggerFactory;
+import packettypes.OpenTableColumns;
 import resources.Resources;
 
 public class MainMenuController extends Controller {
@@ -68,10 +69,12 @@ public class MainMenuController extends Controller {
             Pane mainPane = (Pane)controllerStage.getScene().getRoot();
             ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
             OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
-            boolean openTableAnswer = openTableSender.sendPacket(tableName, 0);
+            JSONObject openTableAnswerPacket = openTableSender.sendPacket(tableName, 0);
+            boolean openTableAnswer = openTableAnswerPacket.getBoolean(OpenTableColumns.OPENED.toString());
             if (openTableAnswer) {
                 getToTable(actionEvent, tableName);
             } else {
+                alert(openTableAnswerPacket.getString(OpenTableColumns.MESSAGE.toString()));
                 fetchAllTablesStatus();
             }
             mainPane.getChildren().remove(progressIndicator);
@@ -100,10 +103,12 @@ public class MainMenuController extends Controller {
             ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
             OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
             try {
-                boolean openTableAnswer = openTableSender.sendPacket(tableName, peopleCountToTableController.getCountInput());
+                JSONObject openTableAnswerPacket = openTableSender.sendPacket(tableName, peopleCountToTableController.getCountInput());
+                boolean openTableAnswer = openTableAnswerPacket.getBoolean(OpenTableColumns.OPENED.toString());
                 if (openTableAnswer) {
                     getToTable(actionEvent1, tableName);
                 } else {
+                    alert(openTableAnswerPacket.getString(OpenTableColumns.MESSAGE.toString()));
                     fetchAllTablesStatus();
                     for (Button tableButton : buttons.values()) {
                         tableButton.setDisable(false);
@@ -169,10 +174,12 @@ public class MainMenuController extends Controller {
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         OpenTableSender openTableSender = new OpenTableSender(getClientSocket().getSocket());
         try {
-            boolean openTableAnswer = openTableSender.sendPacket(tableName, customCount);
+            JSONObject openTableAnswerPacket = openTableSender.sendPacket(tableName, peopleCountToTableController.getCountInput());
+            boolean openTableAnswer = openTableAnswerPacket.getBoolean(OpenTableColumns.OPENED.toString());
             if (openTableAnswer) {
                 getToTable(actionEvent, tableName);
             } else {
+                alert(openTableAnswerPacket.getString(OpenTableColumns.MESSAGE.toString()));
                 fetchAllTablesStatus();
             }
         } catch (IOException throwables) {

@@ -21,13 +21,16 @@ public class Table {
 
     public boolean isOpen() {return this.isOpen;}
 
-    public boolean open(int peopleCountToSet, String message) {
+    public boolean open(int peopleCountToSet) {
+        System.out.println(this.isOpen);
+        System.out.println(peopleCountToSet);
         if (tableLock.isLocked()) {
             return false;
-        } else if (peopleCountToSet == 0 && this.isOpen) {
-            return true;
-        } else if (tableBusy) {
+        }  else if (tableBusy) {
             return false;
+        } else if (peopleCountToSet == 0 && this.isOpen) {
+            tableBusy = true;
+            return true;
         } else if (peopleCountToSet > 0 && !this.isOpen) {
             tableBusy = true;
             tableLock.lock();
@@ -38,9 +41,8 @@ public class Table {
                 tableLock.unlock();
             }
             return true;
-        } else {
-            message = "Another user has this table opened";
         }
+        System.out.println("got to end");
         return false;
     }
 
@@ -89,6 +91,7 @@ public class Table {
     public boolean close() {
         if (this.isOpen) {
             this.isOpen = false;
+            this.tableBusy = false;
             return true;
         } else {
             return false;
@@ -100,4 +103,6 @@ public class Table {
     public List<Product> getDishes() {return this.Dishes;}
     public List<Product> getDrinks() {return this.Drinks;}
     public List<Product> getDesserts() {return this.Desserts;}
+
+    public boolean getTableBusy() {return this.tableBusy;}
 }
