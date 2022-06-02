@@ -18,6 +18,7 @@ public enum TableValuesColumns {
     PRODUCTQUANTITY {public final String toString() {return "ProductQuantity";}},
     PRODUCTTYPE {public final String toString() {return "ProductType";}},
     PRODUCTPRICE {public final String toString() {return "Price";}},
+    PRODUCTCOMMENT {public final String toString() {return "Comment";}},
 
     CLOSE {public final String toString() {return "Close";}},
 }

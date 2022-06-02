@@ -53,6 +53,7 @@ public class PacketHandler {
             productSpecifics.put(TableValuesColumns.PRODUCTQUANTITY.toString(), product.getQuantity());
             productSpecifics.put(TableValuesColumns.PRODUCTTYPE.toString(), product.getType());
             productSpecifics.put(TableValuesColumns.PRODUCTPRICE.toString(), product.getPrice());
+            productSpecifics.put(TableValuesColumns.PRODUCTCOMMENT.toString(), product.getComment());
             productsJSONArr.put(productSpecifics);
         }
     }

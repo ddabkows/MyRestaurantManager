@@ -1,40 +1,53 @@
 package controllers.tableview;
 
-import databaseparams.Starters;
+import controllers.resources.Images;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
-
-import java.awt.*;
 import java.util.Objects;
+import java.util.Optional;
 
 public class AddedProductHBox {
     private final String product;
     private final float price;
     private int quantity = 1;
-    private int type;
+    private final int type;
     private final TextField quantityTextField = new TextField("1");
-    private final ChoiceBox<Integer> typeComboBox = new ChoiceBox<>();
     private final HBox productHBox;
-    private ListView<HBox> listView;
+    private String comment;
+    private final Button commentButton = new Button();
 
-    public AddedProductHBox(String productToSet, float priceToSet, ListView<HBox> listViewToSet, int productType) {
+    public AddedProductHBox(String productToSet, float priceToSet, ListView<HBox> listViewToSet, int productType, String productComment) {
+        comment = productComment;
         product = productToSet;
         price = priceToSet;
-        listView = listViewToSet;
         Label productLabel = new Label(productToSet);
         productLabel.setFont(new Font(15));
-        productLabel.setPrefSize(170, 7);
+        productLabel.setPrefSize(150, 7);
         Button minusButton = new Button("-");
         minusButton.setPrefSize(7, 7);
         minusButton.setFont(new Font(10));
         quantityTextField.setPrefSize(40, 7);
         quantityTextField.setFont(new Font(10));
+        ChoiceBox<Integer> typeComboBox = new ChoiceBox<>();
         typeComboBox.setPrefSize(5, 9);
+        commentButton.setPrefSize(7, 7);
+        commentButton.setFont(new Font(10));
+        commentButton.setStyle("""
+                                -fx-background-color: transparent;
+                                """);
+        Image commentImage = new Image(Images.COMMENT.toString());
+        ImageView commentImgView = new ImageView(commentImage);
+        commentImgView.setFitWidth(20); commentImgView.setFitHeight(20);
+        commentButton.setGraphic(commentImgView);
         HBox separator = new HBox();
         separator.setPrefSize(5, 1);
         typeComboBox.setStyle("""
@@ -51,18 +64,38 @@ public class AddedProductHBox {
         plusButton.setFont(new Font(10));
         plusButton.setPrefSize(7, 7);
         setListeners(minusButton, plusButton);
-        productHBox = new HBox(productLabel, minusButton, quantityTextField, plusButton, separator, typeComboBox);
+        productHBox = new HBox(productLabel, commentButton, minusButton, quantityTextField, plusButton, separator, typeComboBox);
         productHBox.setAlignment(Pos.CENTER);
-        listView.getItems().add(productHBox);
+        listViewToSet.getItems().add(productHBox);
+    }
+
+    private String getFoodComment(String productName, String productComment) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Comment");
+        dialog.setHeaderText(productName);
+
+        TextArea textArea = new TextArea(productComment);
+        dialog.getDialogPane().setContent(textArea);
+        ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(confirmButton, ButtonType.CANCEL);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == confirmButton) {
+                return textArea.getText();
+            }
+            else {
+                return productComment;
+            }
+        });
+        Optional<String> result = dialog.showAndWait();
+        return result.orElse("");
     }
 
     private void setListeners(Button minusButton, Button plusButton) {
-        minusButton.setOnAction(actionEvent -> {
-            decQuantity();
-        });
-        plusButton.setOnAction(actionEvent -> {
-            incQuantity();
-        });
+        minusButton.setOnAction(actionEvent -> decQuantity());
+        plusButton.setOnAction(actionEvent -> incQuantity());
+        commentButton.setOnAction(actionEvent -> comment = getFoodComment(product, comment));
         quantityTextField.setOnKeyReleased(keyEvent -> {
             if (!Objects.equals(quantityTextField.getText(), "")) {
                 try {
@@ -98,4 +131,5 @@ public class AddedProductHBox {
     public HBox getProductHBox() {return productHBox;}
 
     public int getType() {return type;}
+    public String getComment() {return comment;}
 }

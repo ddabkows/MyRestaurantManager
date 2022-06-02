@@ -54,6 +54,8 @@ public class Controller {
 
     protected void goToMainMenu(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = setRoot(Resources.MAINMENU);
+        Stage stage = getStage(actionEvent);
+        stage.setOnCloseRequest(event -> stage.close());
         MainMenuController mainMenuController = loader.getController();
         mainMenuController.setClientSocket(getClientSocket());
         mainMenuController.setControllerStage(getStage(actionEvent));

@@ -1,7 +1,6 @@
 package client.tableviewsenders;
 
 import client.Sender;
-import com.sun.tools.javac.Main;
 import org.json.JSONObject;
 import packettypes.MainColumn;
 import packettypes.TableValuesColumns;

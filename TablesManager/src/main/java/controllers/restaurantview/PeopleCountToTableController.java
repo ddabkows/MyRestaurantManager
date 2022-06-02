@@ -1,10 +1,8 @@
 package controllers.restaurantview;
 
 import controllers.Controller;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Button;
 
 public class PeopleCountToTableController extends Controller {

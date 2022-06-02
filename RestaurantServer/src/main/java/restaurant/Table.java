@@ -22,8 +22,6 @@ public class Table {
     public boolean isOpen() {return this.isOpen;}
 
     public boolean open(int peopleCountToSet) {
-        System.out.println(this.isOpen);
-        System.out.println(peopleCountToSet);
         if (tableLock.isLocked()) {
             return false;
         }  else if (tableBusy) {
@@ -67,17 +65,18 @@ public class Table {
                     JSONObject productSpecifics = productsJSONobj.getJSONObject(productName);
                     int productType = productSpecifics.getInt(TableValuesColumns.PRODUCTTYPE.toString());
                     double productPrice = productSpecifics.getDouble(TableValuesColumns.PRODUCTPRICE.toString());
+                    String productComment = productSpecifics.getString(TableValuesColumns.PRODUCTCOMMENT.toString());
                     if (productType == ProductTypes.STARTERS.getType()) {
-                        Starters.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice));
+                        Starters.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                     else if (productType == ProductTypes.DISHES.getType()) {
-                        Dishes.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice));
+                        Dishes.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                     else if (productType == ProductTypes.DESSERTS.getType()) {
-                        Desserts.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice));
+                        Desserts.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                     else if (productType == ProductTypes.DRINKS.getType()) {
-                        Drinks.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice));
+                        Drinks.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                 }
             } finally {

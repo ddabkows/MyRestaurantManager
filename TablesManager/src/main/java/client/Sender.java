@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.function.Supplier;
 
 public class Sender {
-    private Socket socket;
+    private final Socket socket;
     public Sender(Socket socketToSet) {this.socket = socketToSet;}
 
     protected Socket getSocket() {return this.socket;}

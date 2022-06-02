@@ -43,6 +43,7 @@ public class SetTableSender extends Sender {
             productSpecifics.put(TableValuesColumns.PRODUCTQUANTITY.toString(), addedProductHBox.getQuantity());
             productSpecifics.put(TableValuesColumns.PRODUCTTYPE.toString(), addedProductHBox.getType());
             productSpecifics.put(TableValuesColumns.PRODUCTPRICE.toString(), addedProductHBox.getPrice());
+            productSpecifics.put(TableValuesColumns.PRODUCTCOMMENT.toString(), addedProductHBox.getComment());
             productsJSONObj.put(addedProductHBox.getProduct(), productSpecifics);
         }
         packet.put(TableValuesColumns.PRODUCTS.toString(), productsJSONObj);

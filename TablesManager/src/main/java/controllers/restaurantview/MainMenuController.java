@@ -4,6 +4,7 @@ package controllers.restaurantview;
 import client.restaurantviewsenders.OpenTableSender;
 import controllers.tableview.MainTableController;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -16,7 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
-
 import client.restaurantviewsenders.AllTablesSender;
 import controllers.Controller;
 import org.junit.platform.commons.logging.LoggerFactory;
@@ -34,6 +34,8 @@ public class MainMenuController extends Controller {
     public void getToTable(ActionEvent actionEvent, String tableName) throws IOException {
         FXMLLoader loader = setRoot(Resources.TABLEMENU);
         MainTableController mainTableController = loader.getController();
+        Stage stage = getStage(actionEvent);
+        stage.setOnCloseRequest(Event::consume);
         mainTableController.setClientSocket(getClientSocket());
         mainTableController.setTableWindow(tableName);
         setStage(actionEvent);
