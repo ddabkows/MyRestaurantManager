@@ -41,6 +41,7 @@ public class App extends Application {
         launcherController.setClientSocket(clientSocketBuilder);
         stage.setTitle("TablesManager");
         stage.setScene(new Scene(root));
+        Runtime.getRuntime().addShutdownHook(new ShutdownHook(stage, clientSocketBuilder));
         stage.show();
     }
 
@@ -59,11 +60,10 @@ public class App extends Application {
 
     private void checkImages() {
         for (Images image : Images.values()) {
-            try {
-                Supplier<String> checkMessage = ()-> "Checking image : " + image + "...";
+            try (FileInputStream imageStream = new FileInputStream(image.toString())) {
+                Supplier<String> checkMessage = ()-> "Checking image : " + imageStream + "...";
                 LoggerFactory.getLogger(Main.class).info(checkMessage);
-                new FileInputStream(image.toString());
-            } catch (FileNotFoundException error) {
+            } catch (IOException error) {
                 Supplier<String> errorMessage = ()-> image + " not found. Force shut down.";
                 LoggerFactory.getLogger(Main.class).error(errorMessage);
                 System.exit(1);

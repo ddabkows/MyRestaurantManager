@@ -22,16 +22,22 @@ public class PacketHandler {
     }
 
     public String getPacketResponse(String packet) throws NoSuchAlgorithmException {
-        JSONObject receivedPacket = new JSONObject(packet);
-        String packetType = receivedPacket.getString(new  MainColumn().getMainColumn());
-        if (Objects.equals(packetType, TokenSenderColumns.TYPE.toString())) {
-            return getTokenAnswer(receivedPacket.getString(TokenSenderColumns.TOKENCOL.toString()));}
-        if (Objects.equals(packetType, AllTablesColumns.TYPE.toString())) {
-            return getAllTablesAnswer(receivedPacket);}
-        if (Objects.equals(packetType, OpenTableColumns.TYPE.toString())) {
-            return getOpenTableAnswer(receivedPacket);}
-        if (Objects.equals(packetType, TableValuesColumns.TYPE.toString())) {
-            return getTableRequest(receivedPacket);}
+        try {
+            JSONObject receivedPacket = new JSONObject(packet);
+            String packetType = receivedPacket.getString(new  MainColumn().getMainColumn());
+            if (Objects.equals(packetType, TokenSenderColumns.TYPE.toString())) {
+                return getTokenAnswer(receivedPacket.getString(TokenSenderColumns.TOKENCOL.toString()));}
+            if (Objects.equals(packetType, AllTablesColumns.TYPE.toString())) {
+                return getAllTablesAnswer(receivedPacket);}
+            if (Objects.equals(packetType, OpenTableColumns.TYPE.toString())) {
+                return getOpenTableAnswer(receivedPacket);}
+            if (Objects.equals(packetType, TableValuesColumns.TYPE.toString())) {
+                return getTableRequest(receivedPacket);}
+
+        } catch (Exception ignored) {
+            Table table = restaurant.getTable(packet);
+            table.unbusyTable();
+        }
         return "";
     }
 

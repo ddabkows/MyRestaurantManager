@@ -13,7 +13,7 @@
 <AnchorPane fx:id="mainPane" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.tableview.MainTableController">
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="579.0" strokeType="INSIDE" width="951.0" />
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8b195" height="578.0" layoutX="148.0" layoutY="1.0" strokeType="INSIDE" width="656.0" />
-   <Label fx:id="tableNameLabel" alignment="CENTER" layoutX="148.0" layoutY="25.0" prefHeight="47.0" prefWidth="531.0" text="Table" textFill="#355c7d">
+   <Label fx:id="tableNameLabelSHUTDOWN" alignment="CENTER" layoutX="148.0" layoutY="25.0" prefHeight="47.0" prefWidth="531.0" text="Table" textFill="#355c7d">
       <font>
          <Font name="Lato Bold Italic" size="37.0" />
       </font>

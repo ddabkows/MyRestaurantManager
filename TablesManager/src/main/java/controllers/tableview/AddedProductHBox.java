@@ -19,7 +19,7 @@ public class AddedProductHBox {
     private final String product;
     private final float price;
     private int quantity = 1;
-    private final int type;
+    private int type;
     private final TextField quantityTextField = new TextField("1");
     private final HBox productHBox;
     private String comment;
@@ -63,7 +63,7 @@ public class AddedProductHBox {
         Button plusButton = new Button("+");
         plusButton.setFont(new Font(10));
         plusButton.setPrefSize(7, 7);
-        setListeners(minusButton, plusButton);
+        setListeners(minusButton, plusButton, typeComboBox);
         productHBox = new HBox(productLabel, commentButton, minusButton, quantityTextField, plusButton, separator, typeComboBox);
         productHBox.setAlignment(Pos.CENTER);
         listViewToSet.getItems().add(productHBox);
@@ -92,20 +92,23 @@ public class AddedProductHBox {
         return result.orElse("");
     }
 
-    private void setListeners(Button minusButton, Button plusButton) {
+    private void setListeners(Button minusButton, Button plusButton, ChoiceBox<Integer> typeComboBox) {
         minusButton.setOnAction(actionEvent -> decQuantity());
         plusButton.setOnAction(actionEvent -> incQuantity());
         commentButton.setOnAction(actionEvent -> comment = getFoodComment(product, comment));
+        typeComboBox.setOnAction(actionEvent -> this.type = typeComboBox.getSelectionModel().getSelectedItem());
         quantityTextField.setOnKeyReleased(keyEvent -> {
             if (!Objects.equals(quantityTextField.getText(), "")) {
                 try {
                     quantity = Integer.parseInt(quantityTextField.getText());
                 } catch (Exception ignored) {}
             } else {
-                quantity = 0;}
+                quantity = 0;
+            }
             quantityTextField.setText(String.valueOf(quantity));
             quantityTextField.positionCaret(quantityTextField.getText().length());
         });
+
     }
 
     public void setQuantity(int quantityToSet) {

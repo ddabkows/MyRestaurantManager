@@ -65,7 +65,7 @@ public class Controller {
 
     protected void alert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Warning ");
+        alert.setTitle("Warning");
         alert.setHeaderText(message);
         alert.setContentText("");
         alert.showAndWait();

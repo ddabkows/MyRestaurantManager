@@ -29,7 +29,7 @@ public class MainTableController extends Controller {
     @FXML
     private TextField peopleCountTextField;
     @FXML
-    private Label tableNameLabel;
+    private Label tableNameLabelSHUTDOWN;
     private String oldPeopleCount;
 
 
@@ -43,7 +43,7 @@ public class MainTableController extends Controller {
     private void fetchTableValues() throws IOException {
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         TableValuesSender tableValuesSender = new TableValuesSender(getClientSocket().getSocket());
-        JSONObject tableValues = tableValuesSender.sendPacket(tableNameLabel.getText());
+        JSONObject tableValues = tableValuesSender.sendPacket(tableNameLabelSHUTDOWN.getText());
         mainPane.getChildren().remove(progressIndicator);
         peopleCountTextField.setText(String.valueOf(tableValues.getInt(TableValuesColumns.PEOPLECOUNT.toString())));
         JSONArray productsJSONArr = tableValues.getJSONArray(TableValuesColumns.PRODUCTS.toString());
@@ -66,7 +66,7 @@ public class MainTableController extends Controller {
                 String category = categoriesListView.getSelectionModel().getSelectedItem();
                 Categories categoryEnum = Enum.valueOf(Categories.class, category.toUpperCase(Locale.ROOT));
                 productsListView.getItems().clear();
-                for (Enum products : categoryEnum.getComponents()) {
+                for (Enum<?> products : categoryEnum.getComponents()) {
                     productsListView.getItems().add(products.toString());
                 }
             } catch (Exception ignored) {}
@@ -128,7 +128,7 @@ public class MainTableController extends Controller {
     }
 
     private void setTableNameLabel(String tableName) {
-        tableNameLabel.setText(tableName);
+        tableNameLabelSHUTDOWN.setText(tableName);
     }
 
     public void setPeopleCount() {
@@ -155,7 +155,7 @@ public class MainTableController extends Controller {
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
-        String tableName = tableNameLabel.getText();
+        String tableName = tableNameLabelSHUTDOWN.getText();
         int peopleCount = Integer.parseInt(peopleCountTextField.getText());
         List<AddedProductHBox> allProducts = addedProductHBoxes;
         SetTableSender setTableSender = new SetTableSender(getClientSocket().getSocket());
@@ -164,7 +164,7 @@ public class MainTableController extends Controller {
     }
 
     public void close(ActionEvent actionEvent) throws IOException {
-        String tableName = tableNameLabel.getText();
+        String tableName = tableNameLabelSHUTDOWN.getText();
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         CloseTableSender closeTableSender = new CloseTableSender(getClientSocket().getSocket());
         closeTableSender.sendPacket(tableName);

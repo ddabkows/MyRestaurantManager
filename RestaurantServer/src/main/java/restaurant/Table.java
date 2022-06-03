@@ -14,10 +14,10 @@ public class Table {
     private boolean isOpen = false;
     private int peopleCount;
     private boolean tableBusy = false;
-    private final List<Product> Starters = new ArrayList<>();
-    private final List<Product> Dishes = new ArrayList<>();
-    private final List<Product> Drinks = new ArrayList<>();
-    private final List<Product> Desserts = new ArrayList<>();
+    private final List<Product> starters = new ArrayList<>();
+    private final List<Product> dishes = new ArrayList<>();
+    private final List<Product> drinks = new ArrayList<>();
+    private final List<Product> desserts = new ArrayList<>();
 
     public boolean isOpen() {return this.isOpen;}
 
@@ -40,7 +40,6 @@ public class Table {
             }
             return true;
         }
-        System.out.println("got to end");
         return false;
     }
 
@@ -56,10 +55,10 @@ public class Table {
             try {
                 setPeopleCount(peopleCountToSet);
                 Iterator<String> keys = productsJSONobj.keys();
-                Starters.clear();
-                Dishes.clear();
-                Desserts.clear();
-                Drinks.clear();
+                starters.clear();
+                dishes.clear();
+                desserts.clear();
+                drinks.clear();
                 while (keys.hasNext()) {
                     String productName = keys.next();
                     JSONObject productSpecifics = productsJSONobj.getJSONObject(productName);
@@ -67,16 +66,16 @@ public class Table {
                     double productPrice = productSpecifics.getDouble(TableValuesColumns.PRODUCTPRICE.toString());
                     String productComment = productSpecifics.getString(TableValuesColumns.PRODUCTCOMMENT.toString());
                     if (productType == ProductTypes.STARTERS.getType()) {
-                        Starters.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
+                        starters.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                     else if (productType == ProductTypes.DISHES.getType()) {
-                        Dishes.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
+                        dishes.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                     else if (productType == ProductTypes.DESSERTS.getType()) {
-                        Desserts.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
+                        desserts.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                     else if (productType == ProductTypes.DRINKS.getType()) {
-                        Drinks.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
+                        drinks.add(new Product(productName, productSpecifics.getInt(TableValuesColumns.PRODUCTQUANTITY.toString()), productType, productPrice, productComment));
                     }
                 }
             } finally {
@@ -89,6 +88,10 @@ public class Table {
 
     public boolean close() {
         if (this.isOpen) {
+            this.starters.clear();
+            this.dishes.clear();
+            this.desserts.clear();
+            this.drinks.clear();
             this.isOpen = false;
             this.tableBusy = false;
             return true;
@@ -98,10 +101,11 @@ public class Table {
     }
     public int getPeopleCount() {return this.peopleCount;}
     public void setPeopleCount(int peopleCountToSet) {this.peopleCount = peopleCountToSet;}
-    public List<Product> getStarters() {return this.Starters;}
-    public List<Product> getDishes() {return this.Dishes;}
-    public List<Product> getDrinks() {return this.Drinks;}
-    public List<Product> getDesserts() {return this.Desserts;}
+    public List<Product> getStarters() {return this.starters;}
+    public List<Product> getDishes() {return this.dishes;}
+    public List<Product> getDrinks() {return this.drinks;}
+    public List<Product> getDesserts() {return this.desserts;}
 
     public boolean getTableBusy() {return this.tableBusy;}
+    public void unbusyTable() {this.tableBusy = false;}
 }
