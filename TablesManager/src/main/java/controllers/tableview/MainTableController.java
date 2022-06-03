@@ -2,6 +2,7 @@ package controllers.tableview;
 
 import client.SetTableSender;
 import client.tableviewsenders.CloseTableSender;
+import client.tableviewsenders.PrintStartersSender;
 import client.tableviewsenders.TableValuesSender;
 import controllers.Controller;
 import databaseparams.*;
@@ -31,10 +32,12 @@ public class MainTableController extends Controller {
     @FXML
     private Label tableNameLabelSHUTDOWN;
     private String oldPeopleCount;
+    private String tableName;
 
 
-    public void setTableWindow(String tableName) throws IOException {
-        setTableNameLabel(tableName);
+    public void setTableWindow(String tableNameToSet) throws IOException {
+        tableName = tableNameToSet;
+        setTableNameLabel(tableNameToSet);
         fetchTableValues();
         oldPeopleCount = peopleCountTextField.getText();
         setCategoriesListView();
@@ -155,7 +158,6 @@ public class MainTableController extends Controller {
     }
 
     public void back(ActionEvent actionEvent) throws IOException {
-        String tableName = tableNameLabelSHUTDOWN.getText();
         int peopleCount = Integer.parseInt(peopleCountTextField.getText());
         List<AddedProductHBox> allProducts = addedProductHBoxes;
         SetTableSender setTableSender = new SetTableSender(getClientSocket().getSocket());
@@ -164,11 +166,26 @@ public class MainTableController extends Controller {
     }
 
     public void close(ActionEvent actionEvent) throws IOException {
-        String tableName = tableNameLabelSHUTDOWN.getText();
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         CloseTableSender closeTableSender = new CloseTableSender(getClientSocket().getSocket());
         closeTableSender.sendPacket(tableName);
         mainPane.getChildren().remove(progressIndicator);
         goToMainMenu(actionEvent);
+    }
+
+    public void printDishes(ActionEvent actionEvent) {
+    }
+
+    public void printStarters() throws IOException {
+        ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
+        PrintStartersSender printStartersSender = new PrintStartersSender(getClientSocket().getSocket());
+        boolean confirmed = printStartersSender.sendPacket(tableName);
+        if (!confirmed) {
+            alert("List no printed.");
+        }
+        mainPane.getChildren().remove(progressIndicator);
+    }
+
+    public void printDrinks(ActionEvent actionEvent) {
     }
 }

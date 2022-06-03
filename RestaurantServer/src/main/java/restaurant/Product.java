@@ -6,13 +6,15 @@ public class Product {
     int type;
     double price;
     String comment;
+    double tax;
 
-    public Product(String nameToSet, int quantityToSet, int typeToSet, double priceToSet, String commentToSet) {
+    public Product(String nameToSet, int quantityToSet, int typeToSet, double priceToSet, String commentToSet, double taxToSet) {
         name = nameToSet;
         quantity = quantityToSet;
         type = typeToSet;
         price = priceToSet;
         comment = commentToSet;
+        tax = taxToSet;
     }
 
     public String getName() {return this.name;}
@@ -20,4 +22,5 @@ public class Product {
     public int getType() {return this.type;}
     public double getPrice() {return price;}
     public String getComment() {return comment;}
+    public double getTax() {return tax;}
 }

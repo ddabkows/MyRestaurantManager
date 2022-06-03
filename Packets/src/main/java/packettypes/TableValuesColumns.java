@@ -10,6 +10,9 @@ public enum TableValuesColumns {
 
     FETCH {public final String toString() {return "Fetch";}},
     SET {public final String toString() {return "Set";}},
+    PRINT {public final String toString() {return "Print";}},
+    TOPRINT {public final String toString() {return "ToPrint";}},
+    STARTERS {public final String toString() {return "Starters";}},
     VALUES {public final String toString() {return "Values";}},
     PEOPLECOUNT {public final String toString() {return "PeopleCount";}},
     PRODUCTS {public final String toString() {return "Products";}},

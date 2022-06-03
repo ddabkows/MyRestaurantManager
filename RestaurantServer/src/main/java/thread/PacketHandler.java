@@ -1,12 +1,10 @@
 package thread;
 
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Objects;
-
 import dao.AdminTokenDAO;
 import dao.TokenDAO;
 import packettypes.*;
@@ -34,7 +32,8 @@ public class PacketHandler {
             if (Objects.equals(packetType, TableValuesColumns.TYPE.toString())) {
                 return getTableRequest(receivedPacket);}
 
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
             Table table = restaurant.getTable(packet);
             table.unbusyTable();
         }
@@ -85,12 +84,22 @@ public class PacketHandler {
 
     private String closeTable(JSONObject packet) {
         String tableToClose = packet.getString(TableValuesColumns.TABLENAME.toString());
-        boolean closed = restaurant.getTable(tableToClose).close();
+        boolean closed = restaurant.getTable(tableToClose).close(tableToClose, restaurant.getCurInvoice());
         if (closed) {
+            restaurant.incCurInvoice();
             return String.format("Table %s closed.", tableToClose);
         } else {
             return String.format("Table %s not closed. Fetch status.", tableToClose);
         }
+    }
+
+    public String printStarters(JSONObject packet) {
+        String table = packet.getString(TableValuesColumns.TABLENAME.toString());
+        boolean printed = restaurant.getTable(table).printStarters(table);
+        JSONObject answerPacket = new JSONObject();
+        answerPacket.put(new MainColumn().getMainColumn(), TableValuesColumns.ANSWERTYPE.toString());
+        answerPacket.put(TableValuesColumns.CONFIRMED.toString(), printed);
+        return answerPacket.toString();
     }
 
     private String getTableRequest(JSONObject packet) {
@@ -103,6 +112,9 @@ public class PacketHandler {
         }
         if (Objects.equals(request, TableValuesColumns.SET.toString())) {
             return setTableValues(packet);
+        }
+        if (Objects.equals(request, TableValuesColumns.PRINT.toString())) {
+            return printStarters(packet);
         }
         return "";
     }

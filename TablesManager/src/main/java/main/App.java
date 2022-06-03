@@ -7,8 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.function.Supplier;
 import org.junit.platform.commons.logging.LoggerFactory;
 import resourceloader.ResourceLoader;
@@ -36,10 +40,28 @@ public class App extends Application {
         Parent root = rootLoader.load();
         LauncherController launcherController = rootLoader.getController();
         launcherController.setClientSocket(clientSocketBuilder);
+        launcherController.setPrinterPath(getPrinterPath());
         stage.setTitle("TablesManager");
         stage.setScene(new Scene(root));
         Runtime.getRuntime().addShutdownHook(new ShutdownHook(stage, clientSocketBuilder));
         stage.show();
+    }
+
+    public String getPrinterPath() {
+        File configFile = new File("config.cfg");
+        String printerPath = "";
+        try (Scanner reader = new Scanner(configFile)) {
+            if (reader.hasNextLine()) {
+                String line = reader.nextLine();
+                if (line.contains("printer = ")) {
+                    printerPath = line.replaceAll("printer = ", "");
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return printerPath;
     }
 
     @Override

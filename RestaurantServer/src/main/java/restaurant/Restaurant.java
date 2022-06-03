@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class Restaurant {
     Map<String, Table> tables = new HashMap<>();
+    int invoiceNr = 0;
 
     public Restaurant() {
         for (TablesNames tableName : TablesNames.values()) {
@@ -27,4 +28,7 @@ public class Restaurant {
         }
         return statuses;
     }
+
+    public int getCurInvoice() {return invoiceNr;}
+    public void incCurInvoice() {++invoiceNr;}
 }

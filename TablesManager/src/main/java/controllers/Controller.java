@@ -22,6 +22,7 @@ import resources.Resources;
 public class Controller {
     private Parent root;
     private ClientSocketBuilder clientSocket;
+    private String printerPath;
 
     public void setClientSocket(ClientSocketBuilder clientSocketToSet) {this.clientSocket = clientSocketToSet;}
 
@@ -60,6 +61,7 @@ public class Controller {
         mainMenuController.setClientSocket(getClientSocket());
         mainMenuController.setControllerStage(getStage(actionEvent));
         mainMenuController.setMainMenuController();
+        mainMenuController.setPrinterPath(printerPath);
         setStage(actionEvent);
     }
 
@@ -70,4 +72,6 @@ public class Controller {
         alert.setContentText("");
         alert.showAndWait();
     }
+
+    public void setPrinterPath(String printerPathToSet) {printerPath = printerPathToSet;}
 }

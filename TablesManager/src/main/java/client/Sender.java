@@ -1,7 +1,10 @@
 package client;
 
 import client.launchersenders.TokenSender;
+import com.sun.tools.javac.Main;
+import org.json.JSONObject;
 import org.junit.platform.commons.logging.LoggerFactory;
+import packettypes.MainColumn;
 
 import java.io.*;
 import java.net.Socket;
@@ -28,5 +31,11 @@ public class Sender {
         LoggerFactory.getLogger(TokenSender.class).info(answerSupplier);
 
         return answer;
+    }
+
+    protected JSONObject getTitledJSONObject(String title) {
+        JSONObject packet = new JSONObject();
+        packet.put(new MainColumn().getMainColumn(), title);
+        return packet;
     }
 }
