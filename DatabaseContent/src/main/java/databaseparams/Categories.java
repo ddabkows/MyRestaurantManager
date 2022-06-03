@@ -8,13 +8,13 @@ public enum Categories {
     SOFTS(21, Softs.values()) {public final String toString() {return "Softs";}};
 
     private final int tax;
-    private final Enum[] components;
+    private final Enum<?>[] components;
 
-    Categories(int taxToSet, Enum[] componentsToSet) {
+    Categories(int taxToSet, Enum<?>[] componentsToSet) {
         this.tax = taxToSet;
         this.components = componentsToSet;
     }
 
     public int getTax() {return this.tax;}
-    public Enum[] getComponents() {return this.components;}
+    public Enum<?>[] getComponents() {return this.components;}
 }

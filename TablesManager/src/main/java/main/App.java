@@ -7,13 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.function.Supplier;
 import org.junit.platform.commons.logging.LoggerFactory;
-
 import resourceloader.ResourceLoader;
 import resources.Images;
 import resources.Resources;
