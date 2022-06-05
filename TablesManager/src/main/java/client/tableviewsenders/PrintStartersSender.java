@@ -14,10 +14,10 @@ public class PrintStartersSender extends Sender {
 
     public PrintStartersSender(Socket socketToSet) {super(socketToSet);}
 
-    public boolean sendPacket(String tableName) throws IOException {
+    public boolean sendPacket(String tableName, String printer) throws IOException {
         PrintWriter writer = getSocketWriter();
 
-        writer.println(preparePacket(tableName));
+        writer.println(preparePacket(tableName, printer));
 
         return getAnswer(getSocketAnswer());
     }
@@ -27,11 +27,12 @@ public class PrintStartersSender extends Sender {
         return answerPacket.getBoolean(TableValuesColumns.CONFIRMED.toString());
     }
 
-    public String preparePacket(String tableName) {
+    public String preparePacket(String tableName, String printer) {
         JSONObject packet = getTitledJSONObject(TableValuesColumns.TYPE.toString());
         packet.put(TableValuesColumns.TABLENAME.toString(), tableName);
         packet.put(TableValuesColumns.REQUEST.toString(), TableValuesColumns.PRINT.toString());
         packet.put(TableValuesColumns.TOPRINT.toString(), TableValuesColumns.STARTERS.toString());
+        packet.put(TableValuesColumns.PRINTER.toString(), printer);
         return packet.toString();
     }
 }

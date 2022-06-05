@@ -2,9 +2,7 @@ package controllers.restaurantview;
 
 
 import client.restaurantviewsenders.OpenTableSender;
-import controllers.tableview.MainTableController;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -30,16 +28,6 @@ public class MainMenuController extends Controller {
     PeopleCountToTableController peopleCountToTableController;
     private Stage controllerStage;
     Map<String, Button> buttons = new HashMap<>();
-
-    public void getToTable(ActionEvent actionEvent, String tableName) throws IOException {
-        FXMLLoader loader = setRoot(Resources.TABLEMENU);
-        MainTableController mainTableController = loader.getController();
-        Stage stage = getStage(actionEvent);
-        stage.setOnCloseRequest(Event::consume);
-        mainTableController.setClientSocket(getClientSocket());
-        mainTableController.setTableWindow(tableName);
-        setStage(actionEvent);
-    }
 
     public void setMainMenuController() throws IOException {
         setButtons();
@@ -279,4 +267,6 @@ public class MainMenuController extends Controller {
         buttons.put(Z.getText(), Z);
         buttons.put(AA.getText(), AA);
     }
+
+
 }

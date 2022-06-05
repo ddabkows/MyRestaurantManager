@@ -4,6 +4,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.draw.LineSeparator;
+import com.itextpdf.text.pdf.draw.VerticalPositionMark;
 import databaseparams.Categories;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPageable;
@@ -102,32 +104,53 @@ public class Table {
         }
     }
 
-    public PdfPTable getPriceTable() throws DocumentException {
+    private String getDoubleString(double doubleToString) {
+        String doubleString = String.valueOf(doubleToString);
+        int dotIndex = doubleString.indexOf('.');
+        if (dotIndex == -1) doubleString = doubleString + ".00";
+        int centStrings = doubleString.length() - doubleString.indexOf('.');
+        System.out.println(centStrings);
+        if (centStrings == 2) {
+            doubleString = doubleString + "0";
+        }
+        return doubleString;
+    }
+
+    public PdfPCell getProductsBillCell(double toRound, Font font) {
+        toRound = toRound * 100; toRound = Math.round(toRound); toRound = toRound / 100;
+        PdfPCell pdfPCell = new PdfPCell(new Paragraph(getDoubleString(toRound) + "€", font));
+        pdfPCell.setBorder(0);
+        return pdfPCell;
+    }
+
+    public PdfPTable getPriceTable(Font font) throws DocumentException {
         PdfPTable table = new PdfPTable(4);
         table.setSpacingBefore(0);
-        float[] columnWidths = {2f, 4f, 4f, 4f}; table.setWidths(columnWidths);
-        table.setWidthPercentage(40);
-        table.setHorizontalAlignment(Element.ALIGN_LEFT);
+        float[] columnWidths = {2f, 20f, 20f, 20f}; table.setWidths(columnWidths);
+        table.setHorizontalAlignment(Element.ALIGN_RIGHT);
         PdfPCell voidCell = new PdfPCell(new Paragraph("")); voidCell.setBorder(0);
-        PdfPCell htva = new PdfPCell(new Paragraph("HTVA")); htva.setBorder(0);
-        PdfPCell htvaValue = new PdfPCell(new Paragraph(totalPrice - taxPrice + "€")); htvaValue.setBorder(0);
-        PdfPCell tva = new PdfPCell(new Paragraph("TVA")); tva.setBorder(0);
-        PdfPCell tvaValue = new PdfPCell(new Paragraph(taxPrice + "€")); tvaValue.setBorder(0);
-        PdfPCell tvac = new PdfPCell(new Paragraph("TVAC")); tvac.setBorder(0);
-        PdfPCell tvacValue = new PdfPCell(new Paragraph(totalPrice + "€")); tvacValue.setBorder(0);
+        PdfPCell htva = new PdfPCell(new Paragraph("HTVA", font)); htva.setBorder(0);
+        double htvaDouble = totalPrice - taxPrice;
+        PdfPCell htvaValue = getProductsBillCell(htvaDouble, font);
+        PdfPCell tva = new PdfPCell(new Paragraph("TVA", font)); tva.setBorder(0);
+        double tvaDouble = taxPrice;
+        PdfPCell tvaValue = getProductsBillCell(tvaDouble, font);
+        PdfPCell tvac = new PdfPCell(new Paragraph("TVAC", font)); tvac.setBorder(0);
+        double tvacDouble = totalPrice;
+        PdfPCell tvacValue = getProductsBillCell(tvacDouble, font);
         table.addCell(voidCell); table.addCell(htva); table.addCell(tva); table.addCell(tvac);
         table.addCell(voidCell); table.addCell(htvaValue); table.addCell(tvaValue); table.addCell(tvacValue);
         return table;
     }
 
-    public PdfPTable getCategoryPrices(List<Product> products, PdfPTable table) {
+    public PdfPTable getCategoryPrices(List<Product> products, PdfPTable table, Font font) {
         for (Product product : products) {
-            PdfPCell quantity = new PdfPCell(new Paragraph(String.valueOf(product.getQuantity())));
-            quantity.setBorder(0);
-            PdfPCell name = new PdfPCell(new Paragraph(product.getName()));
-            name.setBorder(0);
-            PdfPCell price = new PdfPCell(new Paragraph(product.getQuantity() * product.getPrice() + "€"));
-            price.setBorder(0);
+            PdfPCell quantity = new PdfPCell(new Paragraph(String.valueOf(product.getQuantity()), font));
+            quantity.setBorder(0); quantity.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            PdfPCell name = new PdfPCell(new Paragraph("  " + product.getName(), font));
+            name.setBorder(0); name.setHorizontalAlignment(Element.ALIGN_LEFT);
+            PdfPCell price = new PdfPCell(new Paragraph(getDoubleString(product.getQuantity() * product.getPrice()) + "€", font));
+            price.setBorder(0); price.setHorizontalAlignment(Element.ALIGN_RIGHT);
             table.addCell(quantity);
             table.addCell(name);
             table.addCell(price);
@@ -150,14 +173,14 @@ public class Table {
         return table;
     }
 
-    private boolean printList(PDDocument documentToPrint) throws PrinterException {
+    private boolean printList(PDDocument documentToPrint, String printer) throws PrinterException {
         DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PAGEABLE;
         PrintRequestAttributeSet patts = new HashPrintRequestAttributeSet();
         PrintService[] ps = PrintServiceLookup.lookupPrintServices(flavor, patts);
         PrintService chosen = null;
         if (ps.length > 0) {
             for (PrintService pss : ps) {
-                if (pss.getName().contains("EPSON")) {
+                if (pss.getName().contains(printer)) {
                     chosen = pss;
                 }
             }
@@ -172,7 +195,7 @@ public class Table {
         return true;
     }
 
-    public boolean printStarters(String tableName) {
+    public boolean printStarters(String tableName, String printer) {
         try {
             DateTimeFormatter dtfInvoice = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
             Document document = new Document();
@@ -201,7 +224,7 @@ public class Table {
             document.close();
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             PDDocument documentToPrint = PDDocument.load(bais);
-            return printList(documentToPrint);
+            return printList(documentToPrint, printer);
 
         } catch (DocumentException | IOException | PrinterException exception) {
             exception.printStackTrace();
@@ -223,37 +246,43 @@ public class Table {
         try (OutputStream outputStream = new FileOutputStream(fileName)) {
             Document document = new Document();
             PdfWriter.getInstance(document, outputStream);
+            LineSeparator lineSeparator = new LineSeparator();
+            document.setPageSize(new Rectangle(250, 270 + 13 * (starters.size() + dishes.size() + desserts.size() + drinks.size())));
             document.open();
 
-            Font font = FontFactory.getFont(FontFactory.COURIER, 30, BaseColor.BLACK);
-            Chunk chunk = new Chunk("Narcyz\n", font);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            font.setSize(12);
-            chunk = new Chunk(dtfInvoice.format(LocalDateTime.now()) + "         " + curInvoice + "\n", font);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            chunk = new Chunk("_____________________________\n", font);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            font.setSize(20);
-            chunk = new Chunk("TABLE       " + tableName + "      " + "Guest(s): " + peopleCount);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            font.setSize(12);
-            chunk = new Chunk("_____________________________\n", font);
-            document.add(chunk); document.add(new Paragraph("\n"));
+            Font font = FontFactory.getFont(FontFactory.COURIER, 15, BaseColor.BLACK);
+            Chunk chunk = new Chunk("Narcyz Manager", font);
+            document.add(new Paragraph(chunk));
+            document.add(new Chunk(lineSeparator));
+            font.setSize(10);
+            chunk = new Chunk(new VerticalPositionMark());
+            Paragraph paragraph = new Paragraph(dtfInvoice.format(LocalDateTime.now()), font);
+            paragraph.add(new Chunk(chunk));
+            paragraph.add(String.valueOf(curInvoice));
+            document.add(paragraph);
+            document.add(new Chunk(lineSeparator));
+            font.setSize(11);
+            paragraph = new Paragraph("TABLE:  " + tableName, font);
+            paragraph.add(new Chunk(chunk));
+            paragraph.add("Guest(s): " + peopleCount);
+            document.add(paragraph);
+            font.setSize(7);
+            document.add(new Chunk(lineSeparator));
             PdfPTable table = new PdfPTable(3);
-            table.setSpacingBefore(0);
-            float[] columnWidths = {2f, 7f, 3f}; table.setWidths(columnWidths);
-            table.setWidthPercentage(40);
+            table.setSpacingBefore(0); table.setWidthPercentage(100);
+            float[] columnWidths = {6f, 32f, 12f}; table.setWidths(columnWidths);
             table.setHorizontalAlignment(Element.ALIGN_LEFT);
-            table = getCategoryPrices(starters, table);
-            table = getCategoryPrices(dishes, table);
-            table = getCategoryPrices(desserts, table);
-            table = getCategoryPrices(drinks, table);
-            document.add(table); document.add(new Paragraph("\n"));
-            chunk = new Chunk("                     Total:   " + totalPrice + "€");
-            document.add(chunk); document.add(new Paragraph("\n"));
-            chunk = new Chunk("_____________________________\n", font);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            document.add(getPriceTable()); document.add(new Paragraph("\n"));
+            table = getCategoryPrices(starters, table, font);
+            table = getCategoryPrices(dishes, table, font);
+            table = getCategoryPrices(desserts, table, font);
+            table = getCategoryPrices(drinks, table, font);
+            document.add(table);
+            font.setSize(9);
+            paragraph = new Paragraph("Total:   " + getDoubleString(totalPrice) + "€", font);
+            paragraph.setAlignment(Element.ALIGN_RIGHT);
+            document.add(paragraph);
+            document.add(new Chunk(lineSeparator));
+            document.add(getPriceTable(font));
 
             document.close();
         } catch (Exception e) {e.printStackTrace();}

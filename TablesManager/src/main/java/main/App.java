@@ -51,10 +51,11 @@ public class App extends Application {
         File configFile = new File("config.cfg");
         String printerPath = "";
         try (Scanner reader = new Scanner(configFile)) {
-            if (reader.hasNextLine()) {
+            while (reader.hasNextLine()) {
                 String line = reader.nextLine();
                 if (line.contains("printer = ")) {
                     printerPath = line.replaceAll("printer = ", "");
+                    break;
                 }
             }
         } catch (FileNotFoundException e) {

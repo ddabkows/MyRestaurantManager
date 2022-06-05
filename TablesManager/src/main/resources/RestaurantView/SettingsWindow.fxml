@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.restaurantview.SettingsController">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="578.0" strokeType="INSIDE" width="949.0" />
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8b195" height="578.0" layoutX="229.0" strokeType="INSIDE" width="491.0" />
+   <Label layoutX="255.0" layoutY="98.0" prefHeight="41.0" prefWidth="153.0" text="Printer :">
+      <font>
+         <Font name="Lato Bold Italic" size="30.0" />
+      </font>
+   </Label>
+   <Button layoutX="608.0" layoutY="516.0" mnemonicParsing="false" onAction="#save" style="-fx-background-color: transparent;" text="Save" textFill="#355c7d">
+      <font>
+         <Font name="Lato Bold Italic" size="22.0" />
+      </font>
+   </Button>
+   <Button layoutX="255.0" layoutY="22.0" mnemonicParsing="false" onAction="#back" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: transparent;">
+      <graphic>
+         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../img/arrow.png" />
+         </ImageView>
+      </graphic>
+   </Button>
+   <ComboBox fx:id="printersComboBox" layoutX="448.0" layoutY="98.0" prefHeight="41.0" prefWidth="250.0" promptText="Printer" style="-fx-background-color: #355c7d; -fx-font: 20px Lato; -fx-font-weight: Bold; -fx-font-style: Italic;" />
+</AnchorPane>

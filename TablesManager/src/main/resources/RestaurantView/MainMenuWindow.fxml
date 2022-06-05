@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.restaurantview.MainMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.restaurantview.MainMenuController">
     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="578.0" strokeType="INSIDE" width="949.0" />
    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8b195" height="578.0" layoutX="229.0" strokeType="INSIDE" width="491.0" />
    <Line endY="150.0" layoutX="330.0" layoutY="289.0" startX="-10.0" startY="120.0" />
@@ -47,4 +51,11 @@
    <Button fx:id="Y" layoutX="620.0" layoutY="190.0" mnemonicParsing="false" onAction="#openTable" style="-fx-background-color: #355c7d;" text="307" textFill="#c06c84" />
    <Button fx:id="Z" layoutX="620.0" layoutY="160.0" mnemonicParsing="false" onAction="#openTable" style="-fx-background-color: #355c7d;" text="308" textFill="#c06c84" />
    <Button fx:id="AA" layoutX="560.0" layoutY="72.0" mnemonicParsing="false" onAction="#openTable" prefHeight="53.0" prefWidth="45.0" style="-fx-background-color: #355c7d;" text="309" textFill="#c06c84" />
+   <Button layoutX="24.0" layoutY="493.0" mnemonicParsing="false" onAction="#goToSettings" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: transparent;">
+      <graphic>
+         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../img/settings.png"/>
+         </ImageView>
+      </graphic>
+   </Button>
 </AnchorPane>

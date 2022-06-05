@@ -2,7 +2,10 @@ package controllers;
 
 
 import controllers.restaurantview.MainMenuController;
+import controllers.restaurantview.SettingsController;
+import controllers.tableview.MainTableController;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -44,6 +47,11 @@ public class Controller {
 
     protected Parent getRoot() {return this.root;}
 
+    protected void allowCloseRequest(ActionEvent actionEvent) {
+        Stage stage = getStage(actionEvent);
+        stage.setOnCloseRequest(event -> stage.close());
+    }
+
     protected Stage getStage(ActionEvent actionEvent) {
         return (Stage)((Node) actionEvent.getSource()).getScene().getWindow();}
 
@@ -55,8 +63,7 @@ public class Controller {
 
     protected void goToMainMenu(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = setRoot(Resources.MAINMENU);
-        Stage stage = getStage(actionEvent);
-        stage.setOnCloseRequest(event -> stage.close());
+        allowCloseRequest(actionEvent);
         MainMenuController mainMenuController = loader.getController();
         mainMenuController.setClientSocket(getClientSocket());
         mainMenuController.setControllerStage(getStage(actionEvent));
@@ -74,4 +81,27 @@ public class Controller {
     }
 
     public void setPrinterPath(String printerPathToSet) {printerPath = printerPathToSet;}
+
+    public String getPrinterPath() {return printerPath;}
+
+    public void goToSettings(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = setRoot(Resources.SETTINGS);
+        allowCloseRequest(actionEvent);
+        SettingsController settingsController = loader.getController();
+        settingsController.setClientSocket(getClientSocket());
+        settingsController.setPrinterPath(printerPath);
+        settingsController.setPrintersComboBox();
+        setStage(actionEvent);
+    }
+
+    public void getToTable(ActionEvent actionEvent, String tableName) throws IOException {
+        FXMLLoader loader = setRoot(Resources.TABLEMENU);
+        MainTableController mainTableController = loader.getController();
+        Stage stage = getStage(actionEvent);
+        stage.setOnCloseRequest(Event::consume);
+        mainTableController.setClientSocket(getClientSocket());
+        mainTableController.setTableWindow(tableName);
+        mainTableController.setPrinterPath(printerPath);
+        setStage(actionEvent);
+    }
 }

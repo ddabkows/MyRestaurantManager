@@ -6,4 +6,5 @@ public enum Images {
     MAINPATH{public final String toString() {return CURPATH + "/TablesManager/src/main/resources/img/";}},
 
     COMMENT{public final String toString() {return MAINPATH + "messageIcon.png";}},
+    SETTINGS{public final String toString() {return MAINPATH + "settings.png";}},
 }

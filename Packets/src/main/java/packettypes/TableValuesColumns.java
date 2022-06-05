@@ -11,6 +11,7 @@ public enum TableValuesColumns {
     FETCH {public final String toString() {return "Fetch";}},
     SET {public final String toString() {return "Set";}},
     PRINT {public final String toString() {return "Print";}},
+    PRINTER {public final String toString() {return "Printer";}},
     TOPRINT {public final String toString() {return "ToPrint";}},
     STARTERS {public final String toString() {return "Starters";}},
     VALUES {public final String toString() {return "Values";}},

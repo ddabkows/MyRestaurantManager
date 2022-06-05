@@ -10,5 +10,6 @@ public enum Resources {
 
     MAINMENU {public final String toString() {return ResourcesDirectories.MAINMENUDIR + "MainMenuWindow.fxml";}},
     OPENNEWTABLE {public final String toString() {return ResourcesDirectories.MAINMENUDIR + "PeopleCountToTablePane.fxml";}},
+    SETTINGS {public final String toString() {return ResourcesDirectories.MAINMENUDIR + "SettingsWindow.fxml";}},
     TABLEMENU {public final String toString() {return ResourcesDirectories.TABLEVIEW + "MainTableWindow.fxml";}},
 }

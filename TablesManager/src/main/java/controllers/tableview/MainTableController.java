@@ -179,7 +179,7 @@ public class MainTableController extends Controller {
     public void printStarters() throws IOException {
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
         PrintStartersSender printStartersSender = new PrintStartersSender(getClientSocket().getSocket());
-        boolean confirmed = printStartersSender.sendPacket(tableName);
+        boolean confirmed = printStartersSender.sendPacket(tableName, getPrinterPath());
         if (!confirmed) {
             alert("List no printed.");
         }

@@ -95,7 +95,8 @@ public class PacketHandler {
 
     public String printStarters(JSONObject packet) {
         String table = packet.getString(TableValuesColumns.TABLENAME.toString());
-        boolean printed = restaurant.getTable(table).printStarters(table);
+        String printer = packet.getString(TableValuesColumns.PRINTER.toString());
+        boolean printed = restaurant.getTable(table).printStarters(table, printer);
         JSONObject answerPacket = new JSONObject();
         answerPacket.put(new MainColumn().getMainColumn(), TableValuesColumns.ANSWERTYPE.toString());
         answerPacket.put(TableValuesColumns.CONFIRMED.toString(), printed);
@@ -114,7 +115,9 @@ public class PacketHandler {
             return setTableValues(packet);
         }
         if (Objects.equals(request, TableValuesColumns.PRINT.toString())) {
-            return printStarters(packet);
+            if (Objects.equals(packet.getString(TableValuesColumns.TOPRINT.toString()), TableValuesColumns.STARTERS.toString())) {
+                return printStarters(packet);
+            }
         }
         return "";
     }
