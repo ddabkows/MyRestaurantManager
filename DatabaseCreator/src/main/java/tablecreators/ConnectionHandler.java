@@ -16,7 +16,7 @@ import main.Main;
  *
  */
 public abstract class ConnectionHandler {
-    Connection connection = null;
+    public Connection connection = null;
 
     /**The constructor sets up the connection to the database
      *

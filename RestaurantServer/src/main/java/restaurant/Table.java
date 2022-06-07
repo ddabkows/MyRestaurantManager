@@ -6,6 +6,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.itextpdf.text.pdf.draw.VerticalPositionMark;
+import dao.ClosedTableDAO;
 import databaseparams.Categories;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.printing.PDFPageable;
@@ -348,6 +349,7 @@ public class Table {
     public void createInvoicePDF(String tableName, int curInvoice) {
         DateTimeFormatter dtfTile = DateTimeFormatter.ofPattern("yyy_MM_dd HH_mm_ss");
         DateTimeFormatter dtfInvoice = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
+        new ClosedTableDAO().storeTable(this, tableName, dtfInvoice.format(LocalDateTime.now()));
         String now = dtfTile.format(LocalDateTime.now());
         String fileName = "bills/" + tableName + "_invoice_" + now + ".pdf";
         File newFile = new File(fileName);

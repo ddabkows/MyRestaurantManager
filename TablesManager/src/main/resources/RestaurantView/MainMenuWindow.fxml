@@ -54,8 +54,13 @@
    <Button layoutX="24.0" layoutY="493.0" mnemonicParsing="false" onAction="#goToSettings" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: transparent;">
       <graphic>
          <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../img/settings.png"/>
+            <Image url="@../img/settings.png" />
          </ImageView>
       </graphic>
+   </Button>
+   <Button layoutX="24.0" layoutY="25.0" mnemonicParsing="false" onAction="#switchToClosedTables" prefHeight="51.0" prefWidth="193.0" style="-fx-background-color: transparent;" text="Closed Tables" textFill="#f8b195">
+      <font>
+         <Font name="Lato Bold Italic" size="26.0" />
+      </font>
    </Button>
 </AnchorPane>

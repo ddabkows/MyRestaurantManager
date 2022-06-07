@@ -269,4 +269,7 @@ public class MainMenuController extends Controller {
     }
 
 
+    public void switchToClosedTables(ActionEvent actionEvent) throws IOException {
+        goToClosedTables(actionEvent);
+    }
 }

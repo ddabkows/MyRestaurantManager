@@ -1,5 +1,6 @@
 package thread;
 
+import dao.ClosedTableDAO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.security.NoSuchAlgorithmException;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import dao.AdminTokenDAO;
 import dao.TokenDAO;
+import packetcomponents.ClosedTable;
 import packettypes.*;
 import restaurant.Product;
 import restaurant.Restaurant;
@@ -31,6 +33,9 @@ public class PacketHandler {
                 return getOpenTableAnswer(receivedPacket);}
             if (Objects.equals(packetType, TableValuesColumns.TYPE.toString())) {
                 return getTableRequest(receivedPacket);}
+            if (Objects.equals(packetType, ClosedTablesColumns.TYPE.toString())) {
+                return getClosedTableRequest(receivedPacket);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,6 +68,21 @@ public class PacketHandler {
         }
     }
 
+    private String getAllTables(JSONObject packet) {
+        JSONObject answerPacket = new JSONObject();
+        answerPacket.put(new MainColumn().getMainColumn(), ClosedTablesColumns.ANSWERTYPE.toString());
+        List<ClosedTable> closedTables = new ClosedTableDAO().getByDay(packet.getString(ClosedTablesColumns.DAY.toString()));
+        JSONArray closedTablesJSONObj = new JSONArray();
+        for (ClosedTable closedTable : closedTables) {
+            JSONObject tableJSONObj = new JSONObject();
+            tableJSONObj.put(ClosedTablesColumns.TABLE.toString(), closedTable.getTableName());
+            tableJSONObj.put(ClosedTablesColumns.DAY.toString(), closedTable.getClosedAt());
+            closedTablesJSONObj.put(tableJSONObj);
+        }
+        answerPacket.put(ClosedTablesColumns.ANSWER.toString(), closedTablesJSONObj);
+        return answerPacket.toString();
+    }
+
 
 
     private String getTableValues(JSONObject packet) {
@@ -91,6 +111,13 @@ public class PacketHandler {
         } else {
             return String.format("Table %s not closed. Fetch status.", tableToClose);
         }
+    }
+
+    private String getClosedTableRequest(JSONObject packet) {
+        String request = packet.getString(ClosedTablesColumns.REQUEST.toString());
+        if (Objects.equals(request, ClosedTablesColumns.ALLTABLES.toString())) {
+            return getAllTables(packet);}
+        return "";
     }
 
     private String getTableRequest(JSONObject packet) {

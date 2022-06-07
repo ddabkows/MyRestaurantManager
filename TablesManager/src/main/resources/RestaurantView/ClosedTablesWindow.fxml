@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="mainPane" prefHeight="578.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.tableview.ClosedTablesController">
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#355c7d" height="579.0" strokeType="INSIDE" width="951.0" />
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f8b195" height="578.0" layoutX="148.0" layoutY="1.0" strokeType="INSIDE" width="656.0" />
+   <Button alignment="CENTER" layoutX="162.0" layoutY="14.0" mnemonicParsing="false" onAction="#back" prefHeight="38.0" prefWidth="76.0" style="-fx-background-color: #355c7d; -fx-text-fill: #c06c84;" text="Back">
+      <font>
+         <Font name="Lato Bold Italic" size="19.0" />
+      </font>
+   </Button>
+   <ListView fx:id="closedTablesListView" layoutX="166.0" layoutY="74.0" prefHeight="484.0" prefWidth="620.0" style="-fx-background-color: #f8b195; -fx-text-fill: #f8b195; -fx-font-size: 21; -fx-font-family: Lato; -fx-font-weight: bold; fx-font-style: italic; -fx-control-inner-background: #f8b195; -fx-selection-bar: #c06c84; -fx-border-color: #c06c84; -fx-border-width: 4; -fx-border-insets: -4;" />
+</AnchorPane>

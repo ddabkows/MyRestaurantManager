@@ -29,20 +29,21 @@ public class ProductsHandler extends ConnectionHandler {
 
     public void addProducts() throws SQLException {
         for (Categories category : Categories.values()) {
-            addByCategory(category.getComponents());
+            addByCategory(category.getComponents(), category.toString());
         }
     }
 
-    public void addByCategory(Enum[] category) throws SQLException {
+    public void addByCategory(Enum<?>[] category, String categoryString) throws SQLException {
         String getCategoryQuery = String.format("""
             SELECT id
             FROM %s
             WHERE %s = '%s'
-            """, TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, Categories.URUMAKIS);
+            """, TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, categoryString);
+        System.out.println(getCategoryQuery);
         ResultSet categoryResultSet = executeSelectQuery(getCategoryQuery);
         categoryResultSet.next();
         int categoryID = categoryResultSet.getInt("id");
-        for (Enum urumaki : category) {
+        for (Enum<?> urumaki : category) {
             String insertQuery = String.format("""
                     INSERT IGNORE INTO %s (%s, %s)
                     VALUES ('%s', %d)

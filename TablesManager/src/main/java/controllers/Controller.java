@@ -3,6 +3,7 @@ package controllers;
 
 import controllers.restaurantview.MainMenuController;
 import controllers.restaurantview.SettingsController;
+import controllers.tableview.ClosedTablesController;
 import controllers.tableview.MainTableController;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -69,6 +70,16 @@ public class Controller {
         mainMenuController.setControllerStage(getStage(actionEvent));
         mainMenuController.setMainMenuController();
         mainMenuController.setPrinterPath(printerPath);
+        setStage(actionEvent);
+    }
+
+    protected void goToClosedTables(ActionEvent actionEvent) throws IOException {
+        FXMLLoader loader = setRoot(Resources.CLOSEDTABLES);
+        allowCloseRequest(actionEvent);
+        ClosedTablesController closedTablesController = loader.getController();
+        closedTablesController.setClientSocket(getClientSocket());
+        closedTablesController.setPrinterPath(printerPath);
+        closedTablesController.setController();
         setStage(actionEvent);
     }
 

@@ -7,7 +7,6 @@ import databaseparams.TablesNames;
 import org.junit.platform.commons.logging.LoggerFactory;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.function.Supplier;
 
 
@@ -34,15 +33,10 @@ public class FoodTypesHandler extends ConnectionHandler {
     }
 
     public void addCategories() {
-        ArrayList<String> categories = new ArrayList<>();
-        categories.add(Categories.STARTERS.toString());
-        categories.add(Categories.URUMAKIS.toString());
-        categories.add(Categories.MAKIS.toString());
-        categories.add(Categories.NIGIRIS.toString());
-        for (String category : categories) {
+        for (Enum<?> category : Categories.values()) {
             String insertQuery = String.format("""
                     INSERT IGNORE INTO %s (%s)
-                    VALUES ('%s')""", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, category);
+                    VALUES ('%s')""", TablesNames.CATEGORY, ColumnNames.CATEGORYCOL, category.toString());
             realizeUpdateQuery(insertQuery);
         }
     }
