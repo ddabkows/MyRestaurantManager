@@ -167,6 +167,10 @@ public class MainTableController extends Controller {
 
     public void close(ActionEvent actionEvent) throws IOException {
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
+        int peopleCount = Integer.parseInt(peopleCountTextField.getText());
+        List<AddedProductHBox> allProducts = addedProductHBoxes;
+        SetTableSender setTableSender = new SetTableSender(getClientSocket().getSocket());
+        setTableSender.sendPacket(tableName, peopleCount, allProducts);
         CloseTableSender closeTableSender = new CloseTableSender(getClientSocket().getSocket());
         closeTableSender.sendPacket(tableName);
         mainPane.getChildren().remove(progressIndicator);
@@ -175,6 +179,10 @@ public class MainTableController extends Controller {
 
     public void print(String toPrint) throws IOException {
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
+        int peopleCount = Integer.parseInt(peopleCountTextField.getText());
+        List<AddedProductHBox> allProducts = addedProductHBoxes;
+        SetTableSender setTableSender = new SetTableSender(getClientSocket().getSocket());
+        setTableSender.sendPacket(tableName, peopleCount, allProducts);
         PrintSender printSender = new PrintSender(getClientSocket().getSocket(), toPrint);
         boolean confirmed = printSender.sendPacket(tableName, getPrinterPath());
         if (!confirmed) {
