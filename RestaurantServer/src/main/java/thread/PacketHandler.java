@@ -93,16 +93,6 @@ public class PacketHandler {
         }
     }
 
-    public String printStarters(JSONObject packet) {
-        String table = packet.getString(TableValuesColumns.TABLENAME.toString());
-        String printer = packet.getString(TableValuesColumns.PRINTER.toString());
-        boolean printed = restaurant.getTable(table).printStarters(table, printer);
-        JSONObject answerPacket = new JSONObject();
-        answerPacket.put(new MainColumn().getMainColumn(), TableValuesColumns.ANSWERTYPE.toString());
-        answerPacket.put(TableValuesColumns.CONFIRMED.toString(), printed);
-        return answerPacket.toString();
-    }
-
     private String getTableRequest(JSONObject packet) {
         String request = packet.getString(TableValuesColumns.REQUEST.toString());
         if (Objects.equals(request, TableValuesColumns.FETCH.toString())) {
@@ -115,9 +105,25 @@ public class PacketHandler {
             return setTableValues(packet);
         }
         if (Objects.equals(request, TableValuesColumns.PRINT.toString())) {
+            String table = packet.getString(TableValuesColumns.TABLENAME.toString());
+            String printer = packet.getString(TableValuesColumns.PRINTER.toString());
+            boolean printed = false;
             if (Objects.equals(packet.getString(TableValuesColumns.TOPRINT.toString()), TableValuesColumns.STARTERS.toString())) {
-                return printStarters(packet);
+                printed = restaurant.getTable(table).printStarters(table, printer);
             }
+            else if (Objects.equals(packet.getString(TableValuesColumns.TOPRINT.toString()), TableValuesColumns.DISHES.toString())) {
+                printed = restaurant.getTable(table).printDishes(table, printer);
+            }
+            else if (Objects.equals(packet.getString(TableValuesColumns.TOPRINT.toString()), TableValuesColumns.DRINKS.toString())) {
+                printed = restaurant.getTable(table).printDrinks(table, printer);
+            }
+            else if (Objects.equals(packet.getString(TableValuesColumns.TOPRINT.toString()), TableValuesColumns.FOOD.toString())) {
+                printed = restaurant.getTable(table).printFood(table, printer);
+            }
+            JSONObject answerPacket = new JSONObject();
+            answerPacket.put(new MainColumn().getMainColumn(), TableValuesColumns.ANSWERTYPE.toString());
+            answerPacket.put(TableValuesColumns.CONFIRMED.toString(), printed);
+            return answerPacket.toString();
         }
         return "";
     }

@@ -2,7 +2,7 @@ package controllers.tableview;
 
 import client.SetTableSender;
 import client.tableviewsenders.CloseTableSender;
-import client.tableviewsenders.PrintStartersSender;
+import client.tableviewsenders.PrintSender;
 import client.tableviewsenders.TableValuesSender;
 import controllers.Controller;
 import databaseparams.*;
@@ -173,19 +173,29 @@ public class MainTableController extends Controller {
         goToMainMenu(actionEvent);
     }
 
-    public void printDishes(ActionEvent actionEvent) {
-    }
-
-    public void printStarters() throws IOException {
+    public void print(String toPrint) throws IOException {
         ProgressIndicator progressIndicator = setProgressIndicator(mainPane);
-        PrintStartersSender printStartersSender = new PrintStartersSender(getClientSocket().getSocket());
-        boolean confirmed = printStartersSender.sendPacket(tableName, getPrinterPath());
+        PrintSender printSender = new PrintSender(getClientSocket().getSocket(), toPrint);
+        boolean confirmed = printSender.sendPacket(tableName, getPrinterPath());
         if (!confirmed) {
-            alert("List no printed.");
+            alert("List not printed.");
         }
         mainPane.getChildren().remove(progressIndicator);
     }
 
-    public void printDrinks(ActionEvent actionEvent) {
+    public void printDishes() throws IOException {
+        print(TableValuesColumns.DISHES.toString());
+    }
+
+    public void printStarters() throws IOException {
+        print(TableValuesColumns.STARTERS.toString());
+    }
+
+    public void printDrinks() throws IOException {
+        print(TableValuesColumns.DRINKS.toString());
+    }
+
+    public void printFood() throws IOException {
+        print(TableValuesColumns.FOOD.toString());
     }
 }

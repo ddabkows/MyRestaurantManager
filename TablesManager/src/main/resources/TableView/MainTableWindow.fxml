@@ -55,4 +55,9 @@
          <Font name="Lato Bold Italic" size="15.0" />
       </font>
    </Button>
+   <Button alignment="CENTER" layoutX="629.0" layoutY="503.0" mnemonicParsing="false" onAction="#printFood" prefHeight="25.0" prefWidth="76.0" style="-fx-background-color: #355c7d; -fx-text-fill: #c06c84;" text="Food">
+      <font>
+         <Font name="Lato Bold Italic" size="15.0" />
+      </font>
+   </Button>
 </AnchorPane>

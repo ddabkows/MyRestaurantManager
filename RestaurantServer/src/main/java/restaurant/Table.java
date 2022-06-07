@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Table {
@@ -38,6 +39,8 @@ public class Table {
     public boolean isOpen() {return this.isOpen;}
     private float totalPrice = 0;
     private float taxPrice = 0;
+    LineSeparator lineSeparator = new LineSeparator();
+    Font font = FontFactory.getFont(FontFactory.COURIER, 11, BaseColor.BLACK);
 
     public boolean open(int peopleCountToSet) {
         if (tableLock.isLocked()) {
@@ -109,7 +112,6 @@ public class Table {
         int dotIndex = doubleString.indexOf('.');
         if (dotIndex == -1) doubleString = doubleString + ".00";
         int centStrings = doubleString.length() - doubleString.indexOf('.');
-        System.out.println(centStrings);
         if (centStrings == 2) {
             doubleString = doubleString + "0";
         }
@@ -161,14 +163,23 @@ public class Table {
         return table;
     }
 
-    public PdfPTable getProductsToKitchen(List<Product> products, PdfPTable table) {
+    public PdfPTable getProductsToKitchen(List<Product> products, PdfPTable table, Font font) {
         for (Product product : products) {
-            PdfPCell name = new PdfPCell(new Paragraph(product.getName()));
+            font.setStyle(Font.BOLD);
+            PdfPCell name = new PdfPCell(new Paragraph(product.getName(), font));
             name.setBorder(0);
-            PdfPCell quantity = new PdfPCell(new Paragraph(String.valueOf(product.getQuantity())));
+            PdfPCell quantity = new PdfPCell(new Paragraph(String.valueOf(product.getQuantity()), font));
             quantity.setBorder(0);
-            table.addCell(name);
+            font.setStyle(Font.NORMAL);
+            PdfPCell blank = new PdfPCell(new Paragraph(""));
+            blank.setBorder(0);
+            PdfPCell comment = new PdfPCell(new Paragraph(product.getComment(), font));
+            comment.setBorder(0);
             table.addCell(quantity);
+            table.addCell(name);
+            table.addCell(blank);
+            table.addCell(comment);
+
         }
         return table;
     }
@@ -195,32 +206,134 @@ public class Table {
         return true;
     }
 
+    public void createDishPrintHeader(String tableName, Document document, DateTimeFormatter dtfInvoice) throws DocumentException {
+        font.setSize(11);
+        Paragraph paragraph = new Paragraph("Table: " + tableName, font);
+        document.add(paragraph);
+        document.add(new Chunk(lineSeparator));
+        font.setSize(10);
+        paragraph = new Paragraph(dtfInvoice.format(LocalDateTime.now()), font);
+        document.add(paragraph);
+        font.setSize(11);
+    }
+
+    public void addProductsToPrint(Document document, List<Product> products) throws DocumentException {
+        document.add(new Chunk(lineSeparator));
+        PdfPTable table = new PdfPTable(2);
+        table.setSpacingBefore(0);
+        float[] columnsWidths = {6f, 30f}; table.setWidths(columnsWidths);
+        table.setWidthPercentage(100);
+        table.setHorizontalAlignment(Element.ALIGN_LEFT);
+        font.setSize(12);
+        table = getProductsToKitchen(products, table, font);
+        document.add(table); document.add(new Paragraph("\n"));
+    }
+
+    public void addStartersToPrint(Document document) throws DocumentException {
+        Paragraph paragraph = new Paragraph("Starters", font);
+        document.add(paragraph);
+        addProductsToPrint(document, starters);
+        document.add(new Chunk(lineSeparator));
+    }
+
+    public void addDrinksToPrint(Document document) throws DocumentException {
+        Paragraph paragraph = new Paragraph("Drinks", font);
+        document.add(paragraph);
+        addProductsToPrint(document, drinks);
+        document.add(new Chunk(lineSeparator));
+    }
+
+    public void addDishesToPrint(Document document) throws DocumentException {
+        Paragraph paragraph = new Paragraph("Dishes", font);
+        document.add(paragraph);
+        addProductsToPrint(document, dishes);
+        document.add(new Chunk(lineSeparator));
+    }
+
+    public void createPrintList(int productsSize, Document document, ByteArrayOutputStream baos) throws FileNotFoundException, DocumentException {
+        PdfWriter.getInstance(document, baos);
+
+        document.setPageSize(new Rectangle(250, 200 + 20 * productsSize));
+        document.open();
+    }
+
+    public boolean printFood(String tableName, String printer) {
+        try {
+            DateTimeFormatter dtfInvoice = DateTimeFormatter.ofPattern("yyy.MM.dd HH:mm:ss");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Document document = new Document();
+            int size = (int) ((getSize(starters) + getSize(dishes)) * 1.5);
+            createPrintList(size, document, baos);
+            createDishPrintHeader(tableName, document, dtfInvoice);
+            addStartersToPrint(document);
+            addDishesToPrint(document);
+            document.close();
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            PDDocument documentToPrint = PDDocument.load(bais);
+            return printList(documentToPrint, printer);
+        } catch (DocumentException | IOException | PrinterException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int getSize(List<Product> products) {
+        int size = products.size();
+        for (Product product : products) {
+            if (!Objects.equals(product.getComment(), "")) {
+                size += 2;
+            }
+        }
+        return size;
+    }
+
+    public boolean printDrinks(String tableName, String printer) {
+        try {
+            DateTimeFormatter dtfInvoice = DateTimeFormatter.ofPattern("yyy.MM.dd HH:mm:ss");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Document document = new Document();
+            int size = getSize(drinks);
+            createPrintList(size, document, baos);
+            createDishPrintHeader(tableName, document, dtfInvoice);
+            addDrinksToPrint(document);
+            document.close();
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            PDDocument documentToPrint = PDDocument.load(bais);
+            return printList(documentToPrint, printer);
+        } catch (DocumentException | IOException | PrinterException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean printDishes(String tableName, String printer) {
+        try {
+            DateTimeFormatter dtfInvoice = DateTimeFormatter.ofPattern("yyy.MM.dd HH:mm:ss");
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Document document = new Document();
+            int size = getSize(dishes);
+            createPrintList(size, document, baos);
+            createDishPrintHeader(tableName, document, dtfInvoice);
+            addDishesToPrint(document);
+            document.close();
+            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+            PDDocument documentToPrint = PDDocument.load(bais);
+            return printList(documentToPrint, printer);
+        } catch (DocumentException | IOException | PrinterException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public boolean printStarters(String tableName, String printer) {
         try {
             DateTimeFormatter dtfInvoice = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");
             Document document = new Document();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PdfWriter.getInstance(document, baos);
-            document.open();
-            Font font = FontFactory.getFont(FontFactory.COURIER, 20, BaseColor.BLACK);
-            Chunk chunk = new Chunk("Table: " + tableName);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            chunk = new Chunk("_____________________________\n", font);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            chunk = new Chunk(dtfInvoice.format(LocalDateTime.now()), font);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            font.setSize(30);
-            chunk = new Chunk("Starters");
-            document.add(chunk); document.add(new Paragraph("\n"));
-            chunk = new Chunk("_____________________________\n", font);
-            document.add(chunk); document.add(new Paragraph("\n"));
-            PdfPTable table = new PdfPTable(2);
-            table.setSpacingBefore(0);
-            float[] columnsWidths = {7f, 3f}; table.setWidths(columnsWidths);
-            table.setWidthPercentage(40);
-            table.setHorizontalAlignment(Element.ALIGN_LEFT);
-            table = getProductsToKitchen(starters, table);
-            document.add(table); document.add(new Paragraph("\n"));
+            int size = getSize(starters);
+            createPrintList(size, document, baos);
+            createDishPrintHeader(tableName, document, dtfInvoice);
+            addStartersToPrint(document);
             document.close();
             ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
             PDDocument documentToPrint = PDDocument.load(bais);

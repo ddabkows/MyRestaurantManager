@@ -1,18 +1,20 @@
 package client.tableviewsenders;
 
 import client.Sender;
-import javafx.scene.control.Tab;
 import org.json.JSONObject;
-import packettypes.MainColumn;
 import packettypes.TableValuesColumns;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class PrintStartersSender extends Sender {
+public class PrintSender extends Sender {
+    String toPrint;
 
-    public PrintStartersSender(Socket socketToSet) {super(socketToSet);}
+    public PrintSender(Socket socketToSet, String toPrintToSet) {
+        super(socketToSet);
+        toPrint = toPrintToSet;
+    }
 
     public boolean sendPacket(String tableName, String printer) throws IOException {
         PrintWriter writer = getSocketWriter();
@@ -31,7 +33,7 @@ public class PrintStartersSender extends Sender {
         JSONObject packet = getTitledJSONObject(TableValuesColumns.TYPE.toString());
         packet.put(TableValuesColumns.TABLENAME.toString(), tableName);
         packet.put(TableValuesColumns.REQUEST.toString(), TableValuesColumns.PRINT.toString());
-        packet.put(TableValuesColumns.TOPRINT.toString(), TableValuesColumns.STARTERS.toString());
+        packet.put(TableValuesColumns.TOPRINT.toString(), toPrint);
         packet.put(TableValuesColumns.PRINTER.toString(), printer);
         return packet.toString();
     }

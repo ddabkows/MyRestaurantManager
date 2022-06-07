@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Packets" />
     <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.8.2" level="project" />
     <orderEntry type="library" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
     <orderEntry type="module" module-name="DatabaseContent" />

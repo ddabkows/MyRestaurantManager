@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Packets" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:17" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:win:17" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:17" level="project" />
