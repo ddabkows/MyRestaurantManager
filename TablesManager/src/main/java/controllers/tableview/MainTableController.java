@@ -124,7 +124,7 @@ public class MainTableController extends Controller {
             boolean absent = true;
             int type = getType(product);
             for (int alreadyAddedProductIndex = 0; alreadyAddedProductIndex < addedProductHBoxes.size(); ++alreadyAddedProductIndex) {
-                if (Objects.equals(addedProductHBoxes.get(alreadyAddedProductIndex).getProduct(), product) && addedProductHBoxes.get(alreadyAddedProductIndex).getType() == type) {
+                if (Objects.equals(addedProductHBoxes.get(alreadyAddedProductIndex).getProduct(), product) && addedProductHBoxes.get(alreadyAddedProductIndex).getType() == type+1) {
                     addedProductHBoxes.get(alreadyAddedProductIndex).incQuantity();
                     absent = false;
                 } else if (addedProductHBoxes.get(alreadyAddedProductIndex).getQuantity() == 0) {
