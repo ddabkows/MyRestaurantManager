@@ -39,12 +39,14 @@ public class SetTableSender extends Sender {
         packet.put(TableValuesColumns.PEOPLECOUNT.toString(), peopleCount);
         JSONObject productsJSONObj = new JSONObject();
         for (AddedProductHBox addedProductHBox : allProducts) {
-            JSONObject productSpecifics = new JSONObject();
-            productSpecifics.put(TableValuesColumns.PRODUCTQUANTITY.toString(), addedProductHBox.getQuantity());
-            productSpecifics.put(TableValuesColumns.PRODUCTTYPE.toString(), addedProductHBox.getType());
-            productSpecifics.put(TableValuesColumns.PRODUCTPRICE.toString(), addedProductHBox.getPrice());
-            productSpecifics.put(TableValuesColumns.PRODUCTCOMMENT.toString(), addedProductHBox.getComment());
-            productsJSONObj.put(addedProductHBox.getProduct(), productSpecifics);
+            if (addedProductHBox.getQuantity() > 0) {
+                JSONObject productSpecifics = new JSONObject();
+                productSpecifics.put(TableValuesColumns.PRODUCTQUANTITY.toString(), addedProductHBox.getQuantity());
+                productSpecifics.put(TableValuesColumns.PRODUCTTYPE.toString(), addedProductHBox.getType());
+                productSpecifics.put(TableValuesColumns.PRODUCTPRICE.toString(), addedProductHBox.getPrice());
+                productSpecifics.put(TableValuesColumns.PRODUCTCOMMENT.toString(), addedProductHBox.getComment());
+                productsJSONObj.put(addedProductHBox.getProduct() + addedProductHBox.getType(), productSpecifics);
+            }
         }
         packet.put(TableValuesColumns.PRODUCTS.toString(), productsJSONObj);
         return packet.toString();

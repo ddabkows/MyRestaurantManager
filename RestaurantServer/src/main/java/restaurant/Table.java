@@ -150,7 +150,8 @@ public class Table {
         for (Product product : products) {
             PdfPCell quantity = new PdfPCell(new Paragraph(String.valueOf(product.getQuantity()), font));
             quantity.setBorder(0); quantity.setHorizontalAlignment(Element.ALIGN_RIGHT);
-            PdfPCell name = new PdfPCell(new Paragraph("  " + product.getName(), font));
+            String productName = product.getName().substring(0, product.getName().length()-1);
+            PdfPCell name = new PdfPCell(new Paragraph("  " + productName, font));
             name.setBorder(0); name.setHorizontalAlignment(Element.ALIGN_LEFT);
             PdfPCell price = new PdfPCell(new Paragraph(getDoubleString(product.getQuantity() * product.getPrice()) + "€", font));
             price.setBorder(0); price.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -167,7 +168,8 @@ public class Table {
     public PdfPTable getProductsToKitchen(List<Product> products, PdfPTable table, Font font) {
         for (Product product : products) {
             font.setStyle(Font.BOLD);
-            PdfPCell name = new PdfPCell(new Paragraph(product.getName(), font));
+            String productName = product.getName().substring(0, product.getName().length()-1);
+            PdfPCell name = new PdfPCell(new Paragraph(productName, font));
             name.setBorder(0);
             PdfPCell quantity = new PdfPCell(new Paragraph(String.valueOf(product.getQuantity()), font));
             quantity.setBorder(0);

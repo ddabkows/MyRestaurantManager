@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,29 +25,36 @@ public class AddedProductHBox {
     private final HBox productHBox;
     private String comment;
     private final Button commentButton = new Button();
+    private final Label quantityPriceText;
 
     public AddedProductHBox(String productToSet, float priceToSet, ListView<HBox> listViewToSet, int productType, String productComment) {
         comment = productComment;
         product = productToSet;
         price = priceToSet;
         Label productLabel = new Label(productToSet);
-        productLabel.setFont(new Font(15));
-        productLabel.setPrefSize(150, 7);
+        productLabel.setFont(new Font(13));
+        productLabel.setPrefSize(115, 7);
         Button minusButton = new Button("-");
         minusButton.setPrefSize(7, 7);
         minusButton.setFont(new Font(10));
-        quantityTextField.setPrefSize(40, 7);
+        Label priceText = new Label(String.valueOf(price));
+        priceText.setFont(new Font(10));
+        priceText.setPrefSize(30, 7);
+        quantityPriceText = new Label(String.valueOf(price));
+        quantityPriceText.setFont(new Font(10));
+        quantityPriceText.setPrefSize(30, 7);
         quantityTextField.setFont(new Font(10));
+        quantityTextField.setPrefSize(30, 7);
         ChoiceBox<Integer> typeComboBox = new ChoiceBox<>();
         typeComboBox.setPrefSize(5, 9);
-        commentButton.setPrefSize(7, 7);
+        commentButton.setPrefSize(5, 5);
         commentButton.setFont(new Font(10));
         commentButton.setStyle("""
                                 -fx-background-color: transparent;
                                 """);
         Image commentImage = new Image(Images.COMMENT.toString());
         ImageView commentImgView = new ImageView(commentImage);
-        commentImgView.setFitWidth(20); commentImgView.setFitHeight(20);
+        commentImgView.setFitWidth(15); commentImgView.setFitHeight(15);
         commentButton.setGraphic(commentImgView);
         HBox separator = new HBox();
         separator.setPrefSize(5, 1);
@@ -64,7 +72,7 @@ public class AddedProductHBox {
         plusButton.setFont(new Font(10));
         plusButton.setPrefSize(7, 7);
         setListeners(minusButton, plusButton, typeComboBox);
-        productHBox = new HBox(productLabel, commentButton, minusButton, quantityTextField, plusButton, separator, typeComboBox);
+        productHBox = new HBox(productLabel, priceText, quantityPriceText, commentButton, minusButton, quantityTextField, plusButton, separator, typeComboBox);
         productHBox.setAlignment(Pos.CENTER);
         listViewToSet.getItems().add(productHBox);
     }
@@ -106,6 +114,7 @@ public class AddedProductHBox {
                 quantity = 0;
             }
             quantityTextField.setText(String.valueOf(quantity));
+            quantityPriceText.setText(String.valueOf(quantity * price));
             quantityTextField.positionCaret(quantityTextField.getText().length());
         });
 
@@ -114,18 +123,21 @@ public class AddedProductHBox {
     public void setQuantity(int quantityToSet) {
         quantity = quantityToSet;
         quantityTextField.setText(String.valueOf(quantityToSet));
+        quantityPriceText.setText(String.valueOf(quantityToSet * price));
     }
 
     private void decQuantity() {
         if (quantity > 1) {
             --quantity;
             quantityTextField.setText(String.valueOf(quantity));
+            quantityPriceText.setText(String.valueOf(quantity * price));
         }
     }
 
     public void incQuantity() {
         ++ quantity;
         quantityTextField.setText(String.valueOf(quantity));
+        quantityPriceText.setText(String.valueOf(quantity * price));
     }
 
     public String getProduct() {return product;}

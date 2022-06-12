@@ -34,6 +34,8 @@ public class MainTableController extends Controller {
     private String oldPeopleCount;
     private String tableName;
 
+    private float priceToSet;
+
 
     public void setTableWindow(String tableNameToSet) throws IOException {
         tableName = tableNameToSet;
@@ -53,6 +55,7 @@ public class MainTableController extends Controller {
         for (int JSONIndex = 0; JSONIndex < productsJSONArr.length(); ++JSONIndex) {
             JSONObject productJSONObj = productsJSONArr.getJSONObject(JSONIndex);
             String productName = productJSONObj.getString(TableValuesColumns.PRODUCTNAME.toString());
+            productName = productName.substring(0, productName.length()-1);
             int productQuantity = productJSONObj.getInt(TableValuesColumns.PRODUCTQUANTITY.toString());
             float productPrice = (float) productJSONObj.getDouble(TableValuesColumns.PRODUCTPRICE.toString());
             int productType = productJSONObj.getInt(TableValuesColumns.PRODUCTTYPE.toString()) - 1;
@@ -60,6 +63,48 @@ public class MainTableController extends Controller {
             addedProductHBoxes.add(new AddedProductHBox(productName, productPrice, addedProductsListView, productType, productComment));
             addedProductHBoxes.get(addedProductHBoxes.size() - 1).setQuantity(productQuantity);
         }
+    }
+
+    private int getType(String product) {
+        String category = categoriesListView.getSelectionModel().getSelectedItem();
+        if (Objects.equals(category, "Makis")) {
+            for (Makis makisEnum : Makis.values()) {
+                if (Objects.equals(makisEnum.toString(), product)) {
+                    priceToSet = makisEnum.getPrice();
+                    return 1;
+                }
+            }
+        }
+        else if (Objects.equals(category, "Nigiris")) {
+            for (Nigiris nigirisEnum : Nigiris.values()) {
+                if (Objects.equals(nigirisEnum.toString(), product)) {
+                    priceToSet = nigirisEnum.getPrice();
+                    return 1;
+                }
+            }
+        } else if (Objects.equals(category, "Softs")) {
+            for (Softs softsEnum : Softs.values()) {
+                if (Objects.equals(softsEnum.toString(), product)) {
+                    priceToSet = softsEnum.getPrice();
+                    return 3;
+                }
+            }
+        } else if (Objects.equals(category, "Starters")) {
+            for (Starters startersEnum : Starters.values()) {
+                if (Objects.equals(startersEnum.toString(), product)) {
+                    priceToSet = startersEnum.getPrice();
+                    return 0;
+                }
+            }
+        } else if (Objects.equals(category, "Urumakis")) {
+            for (Urumakis urumakisEnum : Urumakis.values()) {
+                if (Objects.equals(urumakisEnum.toString(), product)) {
+                    priceToSet = urumakisEnum.getPrice();
+                    return 1;
+                }
+            }
+        }
+        return -1;
     }
 
     private void setCategoriesListView() {
@@ -77,8 +122,9 @@ public class MainTableController extends Controller {
         productsListView.setOnMouseClicked(mouseEvent -> {
             String product = productsListView.getSelectionModel().getSelectedItem();
             boolean absent = true;
+            int type = getType(product);
             for (int alreadyAddedProductIndex = 0; alreadyAddedProductIndex < addedProductHBoxes.size(); ++alreadyAddedProductIndex) {
-                if (Objects.equals(addedProductHBoxes.get(alreadyAddedProductIndex).getProduct(), product)) {
+                if (Objects.equals(addedProductHBoxes.get(alreadyAddedProductIndex).getProduct(), product) && addedProductHBoxes.get(alreadyAddedProductIndex).getType() == type) {
                     addedProductHBoxes.get(alreadyAddedProductIndex).incQuantity();
                     absent = false;
                 } else if (addedProductHBoxes.get(alreadyAddedProductIndex).getQuantity() == 0) {
@@ -88,40 +134,7 @@ public class MainTableController extends Controller {
                 }
             }
             if (absent) {
-                String category = categoriesListView.getSelectionModel().getSelectedItem();
-                if (Objects.equals(category, "Makis")) {
-                    for (Makis makisEnum : Makis.values()) {
-                        if (Objects.equals(makisEnum.toString(), product)) {
-                            addedProductHBoxes.add(new AddedProductHBox(product, makisEnum.getPrice(), addedProductsListView, 1, ""));
-                        }
-                    }
-                }
-                else if (Objects.equals(category, "Nigiris")) {
-                    for (Nigiris nigirisEnum : Nigiris.values()) {
-                        if (Objects.equals(nigirisEnum.toString(), product)) {
-                            addedProductHBoxes.add(new AddedProductHBox(product, nigirisEnum.getPrice(), addedProductsListView, 1, ""));
-                        }
-                    }
-                } else if (Objects.equals(category, "Softs")) {
-                    for (Softs softsEnum : Softs.values()) {
-                        if (Objects.equals(softsEnum.toString(), product)) {
-                            addedProductHBoxes.add(new AddedProductHBox(product, softsEnum.getPrice(), addedProductsListView, 3, ""));
-                        }
-                    }
-                } else if (Objects.equals(category, "Starters")) {
-                    for (Starters startersEnum : Starters.values()) {
-                        if (Objects.equals(startersEnum.toString(), product)) {
-                            addedProductHBoxes.add(new AddedProductHBox(product, startersEnum.getPrice(), addedProductsListView, 0, ""));
-                        }
-                    }
-                } else if (Objects.equals(category, "Urumakis")) {
-                    for (Urumakis urumakisEnum : Urumakis.values()) {
-                        if (Objects.equals(urumakisEnum.toString(), product)) {
-                            addedProductHBoxes.add(new AddedProductHBox(product, urumakisEnum.getPrice(), addedProductsListView, 1, ""));
-                        }
-                    }
-
-                }
+                addedProductHBoxes.add(new AddedProductHBox(product, priceToSet, addedProductsListView, type, ""));
             }
         });
         categoriesListView.getItems().add("       ");
